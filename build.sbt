@@ -1,4 +1,4 @@
-name := """play-java"""
+name := """lifeinvader"""
 
 version := "1.0-SNAPSHOT"
 
@@ -12,3 +12,6 @@ libraryDependencies ++= Seq(
   cache,
   javaWs
 )
+
+
+libraryDependencies += "org.postgresql" % "postgresql" % "9.3-1101-jdbc41"
