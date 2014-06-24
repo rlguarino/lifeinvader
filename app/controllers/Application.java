@@ -17,6 +17,12 @@ import models.Userd;
 
 public class Application extends Controller {
 
+
+	/**
+	 * Display the index page.
+	 * User must be authenticated to view login page.
+	 * 
+	 */
     @Transactional
     @Security.Authenticated(Secured.class)
     public static Result index() {
@@ -62,6 +68,9 @@ public class Application extends Controller {
         }
     }
 
+    /**
+     * Login form class
+     */
     public static class Login {
 
         @Constraints.Required
@@ -87,7 +96,6 @@ public class Application extends Controller {
             }
             return null;
 
-
         }
 
         private boolean isBlank(String input) {
@@ -96,10 +104,16 @@ public class Application extends Controller {
 
     }
 
+    /**
+     * Display login page.
+     */
     public static Result login(){
         return ok(login.render(form(Login.class)));
     }
 
+    /**
+     * Handle login form submission.
+     */
     @Transactional
     public static Result authenticate(){
         Form<Login> loginForm = form(Login.class).bindFromRequest();
@@ -110,5 +124,18 @@ public class Application extends Controller {
             session("email", loginForm.get().email);
             return redirect(routes.Application.index());
         }
+    }
+
+    /**
+     * Handle logout GET request.
+     *
+     * @return redirects the user to the index page.
+     */
+    public static Result logout(){
+    	session().clear();
+    	flash("success", "You've been logged out");
+        return redirect(
+            routes.Application.index()
+        );
     }
 }
