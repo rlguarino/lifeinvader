@@ -17,93 +17,98 @@ import models.Userd;
 
 public class Application extends Controller {
 
-	@Transactional
-	@Security.Authenticated(Secured.class)
+    @Transactional
+    @Security.Authenticated(Secured.class)
     public static Result index() {
         return ok(index.render("Your new application is ready."));
     }
   
 
     public static class Register {
-    	/**
-		* Register Class taken from https://github.com/yesnault/PlayStartApp/
-	 	*/
-    	@Constraints.Required
-    	public String email;
 
-    	@Constraints.Required
-    	public String fullname;
+        @Constraints.Required
+        public String email;
 
-    	@Constraints.Required
-    	public String inputPassword;
+        @Constraints.Required
+        public String fullname;
 
-    	/**
-         * Validate the authentication.
+        @Constraints.Required
+        public String inputPassword;
+
+        /**
+         * Validate the registration form.
          *
          * @return null if validation ok, string with details otherwise
          */
-    	public String validate(){
-    		if (isBlank(email)){
-    			return "Email is required";
-    		}
-    		if (isBlank(fullname)){
-    			return "Full name is required";
-    		}
-    		if (isBlank(inputPassword)){
-    			return "Password is required";
-    		}
+        public String validate(){
+            if (isBlank(email)){
+                return "Email is required";
+            }
+            if (isBlank(fullname)){
+                return "Full name is required";
+            }
+            if (isBlank(inputPassword)){
+                return "Password is required";
+            }
 
-    		return null;
-    	}
+            // TODO Actually add the new user to the database
+            // Remember to check for duplicate email
 
-    	private boolean isBlank(String input) {
+            return null;
+        }
+
+        private boolean isBlank(String input) {
             return input == null || input.isEmpty() || input.trim().isEmpty();
         }
     }
 
     public static class Login {
 
-    	@Constraints.Required
-    	public String email;
-    	@Constraints.Required
-    	public String password;
+        @Constraints.Required
+        public String email;
+        @Constraints.Required
+        public String password;
+
+        /**
+         * Validate the authentication.
+         *
+         * @return null if validation ok, string with details otherwise
+         */
+        public String validate(){
+            if (isBlank(email)){
+                return "Email is required";
+            }
+            if (isBlank(password)){
+                return "Password is required";
+            }
+            //TODO: Catch exceptions here.
+            if( Userd.authenticate(email, password) == null){
+                return "Invalid user or password";
+            }
+            return null;
 
 
-    	public String validate(){
-    		if (isBlank(email)){
-    			return "Email is required";
-    		}
-    		if (isBlank(password)){
-    			return "Password is required";
-    		}
-    		//TODO: Catch exceptions here.
-    		if( Userd.authenticate(email, password) == null){
-    			return "Invalid user or password";
-    		}
-    		return null;
+        }
 
-
-    	}
-
-    	private boolean isBlank(String input) {
+        private boolean isBlank(String input) {
             return input == null || input.isEmpty() || input.trim().isEmpty();
         }
 
-	}
+    }
 
     public static Result login(){
-    	return ok(login.render(form(Login.class)));
+        return ok(login.render(form(Login.class)));
     }
 
     @Transactional
     public static Result authenticate(){
-    	Form<Login> loginForm = form(Login.class).bindFromRequest();
-    	if (loginForm.hasErrors()){
-    		return badRequest(login.render(loginForm));
-    	} else {
-    		session().clear();
-    		session("email", loginForm.get().email);
-    		return redirect(routes.Application.index());
-    	}
+        Form<Login> loginForm = form(Login.class).bindFromRequest();
+        if (loginForm.hasErrors()){
+            return badRequest(login.render(loginForm));
+        } else {
+            session().clear();
+            session("email", loginForm.get().email);
+            return redirect(routes.Application.index());
+        }
     }
 }
