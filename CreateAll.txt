@@ -1,0 +1,73 @@
+
+
+Create Table user (
+user_ID int NOT NULL,
+name varchar(30) NOT NULL,
+dateOfBirth varchar(30),
+address varchar(40),
+email varchar(40),
+passwordHash varchar(100),
+isVisible boolean NOT NULL default 0,
+Primary Key (user_ID)
+);
+
+
+
+Create Table group (
+group_ID int NOT NULL,
+name varchar(30) NOT NULL,
+groupSize int,
+Primary Key (group_ID),
+check(groupSize>1)
+);
+
+
+Create Wall group (
+wall_ID int NOT NULL,
+userID int NOT NULL,
+groupID int NOT NULL,
+Primary Key (wallID),
+Foreign Key (userID) REFERENCES user(user_ID),
+Foreign Key (groupID) REFERENCES group(group_ID)
+);
+
+
+
+Create Table post (
+postID int NOT NULL,
+userID int NOT NULL,
+wallID int NOT NULL,
+content varchar(5000),
+timestamp varchar(20) NOT NULL,
+type varchar(20) NOT NULL
+Primary Key (postID),
+Foreign Key (userID) REFERENCES user(user_ID)
+Foreign Key (wallID) REFERENCES wall(wall_ID)
+);
+
+
+
+Create Table request (
+senderID int NOT NULL,
+receiverID int NOT NULL,
+Foreign Key (senderID) REFERENCES user(userID),
+Foreign Key (receieverID) REFERENCES user(userID)
+);
+
+
+
+Create Table friend (
+person1ID int NOT NULL,
+person2ID int NOT NULL,
+Foreign Key (person1ID) REFERENCES user(user_ID),
+Foreign Key (person2ID) REFERENCES user(user_ID)
+);
+
+
+
+Create Table member (
+groupID int NOT NULL,
+personID int NOT NULL,
+Foreign Key (groupID) REFERENCES group(group_ID),
+Foreign Key (personID) REFERENCES user(user_ID)
+);
