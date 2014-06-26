@@ -51,4 +51,9 @@ public class Userd{
         return null;
     }
 
+    public static Userd returnSettings(Userd user){
+        Logger.debug("Returning " + user + "'s settings");
+        //TypedQuery<Userd> query = JPA.em().find
+    }
+
 }
