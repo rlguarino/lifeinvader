@@ -19,7 +19,7 @@ public class UserController extends Controller {
 	public static void setSetting(Userd user){
 
 		if(user == null){
-			return null;
+			return;
 		}
 	}
 }
