@@ -2,8 +2,6 @@ package controllers;
 
 import play.*;
 import play.mvc.*;
-import play.db.jpa.JPA;
-import play.db.jpa.Transactional;
 import play.data.*;
 import play.data.Form;
 import play.data.validation.Constraints;
@@ -23,7 +21,6 @@ public class Application extends Controller {
 	 * User must be authenticated to view login page.
 	 * 
 	 */
-    @Transactional
     @Security.Authenticated(Secured.class)
     public static Result index() {
         return ok(index.render("Your new application is ready."));
@@ -114,14 +111,13 @@ public class Application extends Controller {
     /**
      * Handle login form submission.
      */
-    @Transactional
     public static Result authenticate(){
         Form<Login> loginForm = form(Login.class).bindFromRequest();
         if (loginForm.hasErrors()){
             return badRequest(login.render(loginForm));
         } else {
             session().clear();
-            session("email", loginForm.get().email);
+            session("id", loginForm.get().email);
             return redirect(routes.Application.index());
         }
     }
