@@ -12,7 +12,7 @@ import javax.persistence.NonUniqueResultException;
 import javax.persistence.NoResultException;
 
 @Entity
-public class Userd{
+public class Userd extends Model{
     @Id
     @GeneratedValue
     public Long id;
@@ -22,6 +22,7 @@ public class Userd{
     public String address;
     public String email;
     public String passwordHash;
+    public boolean isVisible;
 
     // TODO: Actually hash passwords
     // TODO: Throw exceptions
@@ -51,9 +52,33 @@ public class Userd{
         return null;
     }
 
+    /**
+    * Returns a user's settings.
+    */
     public static Userd returnSettings(Userd user){
         Logger.debug("Returning " + user + "'s settings");
         //TypedQuery<Userd> query = JPA.em().find
     }
 
+    /**
+    * Creates a new user in the database.
+    */
+    public static void createUser(Userd user){
+        Logger.debug("Saving User "+ user + " to database.");
+    //place holder
+    }
+
+    /**
+    * Updates a user's information in the database.
+    */
+    public static void updateUser(Userd user){
+        Logger.debug("Updating User " + user + " in database.");
+    }
+
+    /**
+    * Hides a user's information in the database.
+    */
+    public static void deleteUser(Userd user){
+        Logger.debug("Deleting User " + user + " in database.");
+    }
 }
