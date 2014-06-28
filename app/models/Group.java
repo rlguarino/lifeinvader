@@ -8,7 +8,6 @@ import play.Logger;
 
 
 //Group size initialized 
-//
 public class Group {
 
 	public Long groupId;
@@ -49,9 +48,9 @@ public class Group {
 	*
 	*/
 	public Group (Long groupid, String name, int groupsize) {
-	this.groupId = groupId;
-	this.name = name;
-	this.groupsize = groupsize;
+		this.groupId = groupId;
+		this.name = name;
+		this.groupsize = groupsize;
 	} 
 
 	/**
