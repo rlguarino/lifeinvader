@@ -1,29 +1,23 @@
 package models;
 
-import play.db.jpa.JPA;
 import play.*;
 import play.mvc.*;
 import play.db.*;
 import java.sql.*;
 import play.Logger;
-import java.util.Calendar;
-import java.sql.Timestamp;
-import java.sql.ResultSet;
-import java.util.Date;
 
 
 //Group size initialized 
 //
 public class Group {
 
-	public Long groupid;
+	public Long groupId;
 	public String name;
 	public int groupsize;
 
 	public static String GROUP = "group"; // Table Name is Group
 	public static Long GROUP_ID = "groupid";
 	public static String NAME = "name";
-	public static int = 0;
 	
 	/**
      * dquote
@@ -55,7 +49,7 @@ public class Group {
 	*
 	*/
 	public Group (Long groupid, String name, int groupsize) {
-	this.groupid = groupid;
+	this.groupId = groupId;
 	this.name = name;
 	this.groupsize = groupsize;
 	} 
@@ -73,12 +67,30 @@ public class Group {
 			conn = DB.getConnection();
 			String sql = "UPDATE" + Group.dquote(Group.GROUP);
 				sql += " set " + Group.NAME + " = ?, ";
-				sql += Group.groupsize
-		}
+				sql += "where " + Group.GROUP_ID + " = ?";
+			Logger.debug("Generated update: [%s]", sql);
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1,this.name);
+			pstmt.setString(2,this.groupId);
+			pstmt.setString(3,this.groupsize);
 
-		//TODO
-		return null;
-	}
+			pstmt.executeUpdate();
+
+			pstmt.close();
+			conn.close();
+		} catch(SQLException e){
+            // Attempt to close the connection
+            Logger.debug("Error while persiting user");
+            if (conn != null){
+                try{
+                conn.close();
+                } catch (Exception x){
+                    Logger.debug("Error while closing connection during exception", x);
+                }
+            }
+        }
+    }
+	
 
 	 /**
      * FindById
