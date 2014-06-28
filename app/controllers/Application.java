@@ -14,8 +14,8 @@ import views.html.*;
 import models.Userd;
 
 public class Application extends Controller {
-
-
+    
+    
 	/**
 	 * Display the index page.
 	 * User must be authenticated to view login page.
@@ -25,46 +25,8 @@ public class Application extends Controller {
     public static Result index() {
         return ok(index.render("Your new application is ready."));
     }
-  
 
-    public static class Register {
-
-        @Constraints.Required
-        public String email;
-
-        @Constraints.Required
-        public String fullname;
-
-        @Constraints.Required
-        public String inputPassword;
-
-        /**
-         * Validate the registration form.
-         *
-         * @return null if validation ok, string with details otherwise
-         */
-        public String validate(){
-            if (isBlank(email)){
-                return "Email is required";
-            }
-            if (isBlank(fullname)){
-                return "Full name is required";
-            }
-            if (isBlank(inputPassword)){
-                return "Password is required";
-            }
-
-            // TODO Actually add the new user to the database
-            // Remember to check for duplicate email
-
-            return null;
-        }
-
-        private boolean isBlank(String input) {
-            return input == null || input.isEmpty() || input.trim().isEmpty();
-        }
-    }
-
+    
     /**
      * Login form class
      */
@@ -100,7 +62,7 @@ public class Application extends Controller {
         }
 
     }
-
+    
     /**
      * Display login page.
      */
