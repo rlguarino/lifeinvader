@@ -85,7 +85,7 @@ public class Userd{
      * @param dob           The date of birth for the new user
      * @return              The new user if successful, null otherwise.
      */
-    public static Userd ceateUser(String email, String fullname, String clearPasswd, Date dob){
+    public static Userd createUser(String email, String fullname, String clearPasswd, Date dob) throws EmailInUseException, SQLException{
         Logger.debug(String.format("Attemping to create user with %s, %s, %s %s",
             email, fullname, clearPasswd, dob.toString()));
 
