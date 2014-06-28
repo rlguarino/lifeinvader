@@ -20,7 +20,7 @@ public class UserController extends Controller {
     /**
      * Settings Form
      */
-    public static class Register {
+    public static class SettingsForm{
 
         @Constraints.Required
         public String email;
@@ -31,10 +31,12 @@ public class UserController extends Controller {
         @Constraints.Required
         public String address;
 
-        @Constraints.Required
+        // Passwords are not required.
+
+        public String currentPasswd;
+
         public String inputPassword;
 
-        @Constraints.Required
         public String confirmPasswd;
 
         @Constraints.Required
@@ -48,7 +50,7 @@ public class UserController extends Controller {
          * @param address   Default address
          * @param dateOfBirth   Default date of birth
          */
-        public Register(String email, String fullname, String address, Date dateOfBirth){
+        public SettingsForm(String email, String fullname, String address, Date dateOfBirth){
             super();
             this.email = fullname;
             this.fullname = fullname;
@@ -77,7 +79,7 @@ public class UserController extends Controller {
                 return "Date of birth is required";
             }
             
-            return null; 
+            return null;
         }
 
         private boolean isBlank(String input) {

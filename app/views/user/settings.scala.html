@@ -1,4 +1,4 @@
-@(registrationForm: Form[Signup.Register])
+@(settingsForm: Form[UserController.SettingsForm])
 
 @importhelper._
 
@@ -13,42 +13,47 @@
             <a href="@routes.Application.index" id="logo"><span>Life</span>invader</a>
         </header>
   
-@form(routes.Signup.register(), 'class -> "form") {
+@form(routes.UserController.save(), 'class -> "form") {
 
-    @if(registrationForm.hasGlobalErrors) {
+    @if(settingsForm.hasGlobalErrors) {
         <p class="error">
-            <span class="label label-danger">@registrationForm.globalError.message</span>
+            <span class="label label-danger">@settingsForm.globalError.message</span>
         </p>
     }
 
     <fieldset>
         @inputText(
-            registrationForm("email"),
+            settingsForm("email"),
             'class -> "form-control",
             '_label -> "Email"
         )
         @inputText(
-            registrationForm("fullname"),
+            settingsForm("fullname"),
             'class -> "form-control",
             '_label -> "Full Name"
         )
         @inputText(
-            registrationForm("address"),
+            settingsForm("address"),
             'class -> "form-control",
             '_label -> "Address"
         )
         @inputPassword(
-            registrationForm("inputPassword"),
+            settingsForm("currentPasswd"),
             'class -> "form-control",
-            '_label -> "Password"
+            '_label -> "Current Password"
         )
         @inputPassword(
-            registrationForm("confirmPasswd"),
+            settingsForm("inputPassword"),
             'class -> "form-control",
-            '_lable -> "Confirm Password"
+            '_label -> "New Password"
+        )
+        @inputPassword(
+            settingsForm("confirmPasswd"),
+            'class -> "form-control",
+            '_lable -> "Confirm New Password"
         )
         @inputDate(
-            registrationForm("dateOfBirth"),
+            settingsForm("dateOfBirth"),
             'class -> "form-control",
             '_label -> "Birthdate"
         )
