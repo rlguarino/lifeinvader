@@ -1,6 +1,7 @@
 //User object
 package models; 
 
+
 import play.*;
 import play.mvc.*;
 import play.db.*;
@@ -9,7 +10,7 @@ import play.Logger;
 import java.util.Calendar;
 import java.sql.Timestamp;
 import java.sql.ResultSet;
-
+import java.util.Date;
 
 
 public class Userd{
@@ -54,9 +55,9 @@ public class Userd{
     /**
      * Constructor
      *
-     * @param id:           The id of the user
-     * @param name:         The name of the user
-     * @param dob:          The date of birth of the user
+     * @param id            The id of the user
+     * @param name          The name of the user
+     * @param dob           The date of birth of the user
      * @param address       The address of the user
      * @param passwordHash  The hash of the users password
      * 
@@ -71,6 +72,40 @@ public class Userd{
         this.isVisible = isVisible;
     }
 
+
+    //TODO throw our own errors about duplicated emails, and such.
+    /**
+     * createUser
+     * Returns a new user which is persisted in the database. This generates 
+     *  a new id, and sets the isVisible field in the user.
+     *
+     * @param email         Email of the new user
+     * @param fullname      Fullname of the new user
+     * @param clearPasswd   Clear password for the new user
+     * @param dob           The date of birth for the new user
+     * @return              The new user if successful, null otherwise.
+     */
+    public static Userd ceateUser(String email, String fullname, String clearPasswd, Date dob){
+        Logger.debug(String.format("Attemping to create user with %s, %s, %s %s",
+            email, fullname, clearPasswd, dob.toString()));
+
+        Userd user = null;
+        try{
+            // Checking to see if the email already exists in the database.
+            String sql = String.format("SELECT * from %s where email = '%s'", Userd.USER, email);
+            Connection conn = DB.getConnection();
+            Statement stmt = conn.createStatement();
+            ResultSet rs = stmt.executeQuery(sql);
+            if (rs.next()){
+                Logger.debug(String.format("User already registered with email %s", email));
+                return null;
+            }
+        }catch (SQLException e){
+            Logger.debug("Error checking for existing emails");
+        }
+        return user;
+
+    }
     /**
      * Persist
      * Saves the user to the database, this function will create a new database

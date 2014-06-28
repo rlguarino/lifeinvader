@@ -1,5 +1,7 @@
 package controllers;
 
+import java.util.Date;
+
 import play.*;
 import play.mvc.*;
 import play.data.*;
@@ -15,9 +17,9 @@ import models.Userd;
 
 public class Signup extends Controller {
 
-	/**
-	 * Registration form
-	 */
+    /**
+     * Registration form
+     */
     public static class Register {
 
         @Constraints.Required
@@ -28,6 +30,9 @@ public class Signup extends Controller {
 
         @Constraints.Required
         public String inputPassword;
+
+        @Constraints.Required
+        public Date dateOfBirth;
 
         /**
          * Validate the registration form.
@@ -44,9 +49,11 @@ public class Signup extends Controller {
             if (isBlank(inputPassword)){
                 return "Password is required";
             }
-
-            // TODO Actually add the new user to the database
-            // Remember to check for duplicate email
+            if (dateOfBirth == null){
+                return "Date of birth is required";
+            }
+            
+            
 
             return null;
         }
@@ -56,7 +63,7 @@ public class Signup extends Controller {
         }
     }
 
-	/**
+    /**
      * Display registration page.
      */
     public static Result registration(){
@@ -69,8 +76,8 @@ public class Signup extends Controller {
      *
      */
     public static Result register(){
-    	Logger.debug(String.format("Registering a new user"));
-    	return new Todo();
+        Logger.debug(String.format("Registering a new user"));
+        return new Todo();
     }
 
 }
