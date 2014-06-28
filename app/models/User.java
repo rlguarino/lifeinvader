@@ -175,7 +175,7 @@ public class User{
         Connection conn = null;
         try{
             conn = DB.getConnection();
-            String sql = "UPDATE" + User.dquote(User.USER);
+            String sql = "UPDATE " + User.dquote(User.USER);
                 sql += " set " + User.NAME + " = ?, ";
                 sql += User.DOB + " = ?, ";
                 sql += User.ADDRESS + " = ?, ";
