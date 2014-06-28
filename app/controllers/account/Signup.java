@@ -32,6 +32,9 @@ public class Signup extends Controller {
         public String inputPassword;
 
         @Constraints.Required
+        public String confirmPasswd;
+
+        @Constraints.Required
         public Date dateOfBirth;
 
         /**
@@ -67,7 +70,7 @@ public class Signup extends Controller {
      * Display registration page.
      */
     public static Result registration(){
-        return new Todo();
+        return ok(register.render(form(Register.class)));
     }
 
 
