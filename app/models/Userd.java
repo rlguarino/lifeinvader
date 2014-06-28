@@ -59,9 +59,9 @@ public class Userd{
     public void Persist(){
 
         PreparedStatement pstmt = null;
-
+        Connection conn = null;
         try{
-            Connection conn = DB.getConnection();
+            conn = DB.getConnection();
             String sql = "UPDATE" + Userd.USER;
                 sql += " set " + Userd.NAME + " = ?, ";
                 sql += Userd.DOB + " = ?, ";
@@ -83,9 +83,18 @@ public class Userd{
 
             pstmt.executeUpdate();
 
-
+            pstmt.close();
+            conn.close();
         } catch(SQLException e){
-            Logger.debug("Error in persisting User");
+            // Attempt to close the connection
+            Logger.debug("Error while persiting user");
+            if (conn != null){
+                try{
+                conn.close();
+                } catch (Exception x){
+                    Logger.debug("Error while closing connection during exception", x);
+                }
+            }
         }
     }
 
@@ -105,7 +114,8 @@ public class Userd{
      * FindByEmail
      * Searches the database for a User object using the email.
      *
-     * @param email
+     * @param email     The email address for the user
+     * @return          The userd id successful null if not.
      */
     public static Userd findByEmail(String email) throws SQLException{
         Userd user = null;
@@ -113,32 +123,48 @@ public class Userd{
         // SELECT * from Userd, where email = <email>
         String sql = String.format( "SELECT * from %s where %s = %s",
             USER, EMAIL, email);
-
         Logger.debug(String.format("Selecting with %s", sql));
-        Connection conn = DB.getConnection();
-        Statement stmt = conn.createStatement();
-        ResultSet rs = stmt.executeQuery(sql);
-        Logger.debug("Executed query");
 
+        Connection conn = null;
+        Statement stmt = null; 
+        try{
+            conn = DB.getConnection();
+            stmt = conn.createStatement();
+            ResultSet rs = stmt.executeQuery(sql);
 
-        // Load the first user, there should only be one.
-        if (rs.next()){
-            user = new Userd(
-            rs.getLong(Userd.ID),
-            rs.getString(Userd.NAME),
-            rs.getString(Userd.DOB),
-            rs.getString(Userd.ADDRESS),
-            rs.getString(Userd.EMAIL),
-            rs.getString(Userd.PASSWD),
-            rs.getBoolean(Userd.ISVISIBLE));
-        }
+            // Load the first user, there should only be one.
+            if (rs.next()){
+                user = new Userd(
+                rs.getLong(Userd.ID),
+                rs.getString(Userd.NAME),
+                rs.getString(Userd.DOB),
+                rs.getString(Userd.ADDRESS),
+                rs.getString(Userd.EMAIL),
+                rs.getString(Userd.PASSWD),
+                rs.getBoolean(Userd.ISVISIBLE));
+            }
 
-        // Make sure the statement is closed
-        if (stmt != null ){
             stmt.close();
+            conn.close();
+            return user;
+        } catch(SQLException e){
+            Logger.debug("Error while finding user by email", e);
+            if (stmt != null){
+                try{
+                    stmt.close();
+                }catch (Exception x){
+                    Logger.debug("Error while closing statment durring error.", x);
+                }
+            }
+            if (conn != null){
+                try{
+                    conn.close();
+                } catch (Exception x){
+                    Logger.debug("Error while closing connection durring error", x);
+                }
+            }
+            throw e;
         }
-        Logger.debug("Returning user");
-        return user;
     }
 
 
