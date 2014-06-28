@@ -108,8 +108,7 @@ public class Userd{
     }
     /**
      * Persist
-     * Saves the user to the database, this function will create a new database
-     *  connection
+     * Saves the user to the database
      */
     public void Persist(){
 
