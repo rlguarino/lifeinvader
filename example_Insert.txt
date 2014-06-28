@@ -1,0 +1,36 @@
+
+Insert into "user" values(
+1, 'Robin Li', '01/01/1991',
+'1 Bay St','rxl1@rit.edu',
+'therem',True);
+
+Insert into "user" values(
+2, 'Jane Doe', '02/02/1992',
+'2 Crip Ave', 'jdo2@rit.edu',
+'the2', True);
+
+Insert into "user" values(
+3, 'Bob Gold', '03/03/1993',
+'3 Sol Blvd', 'bgd3@rit.edu',
+'the3',True);
+
+Insert into "user" values(
+4, 'Chris To', '04/04/1994',
+'4 Dekalb Ave', 'cto4@rit.edu',
+'the4', True);
+
+Insert into "user" values(
+5, 'Roger Domingo', '05/05/1995',
+'5 Jess St', 'rdo5@rit.edu',
+'the5', True);
+
+Insert into "user" values(
+6, 'Alex Soto', '06/06/1996',
+'6 Henry St', 'aso6@rit.edu',
+'the6', True);
+
+Insert into "user" values(
+7, 'Ashley Rivera', '07/07/1997',
+'7 Bay St', 'ara7@rit.edu',
+'the7', True);
+
