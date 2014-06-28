@@ -72,7 +72,6 @@ public class Group {
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setString(1,this.name);
 			pstmt.setString(2,this.groupId);
-			pstmt.setString(3,this.groupsize);
 
 			pstmt.executeUpdate();
 
