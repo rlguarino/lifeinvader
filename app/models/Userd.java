@@ -95,23 +95,51 @@ public class Userd{
      * @param dob           The date of birth for the new user
      * @return              The new user if successful, null otherwise.
      */
-    public static Userd createUser(String email, String fullname, String clearPasswd, Date dob) throws EmailInUseException, SQLException{
+    public static Userd createUser(String email, String fullname, String address, String clearPasswd, Date dob) throws EmailInUseException, SQLException{
         Logger.debug(String.format("Attemping to create user with %s, %s, %s %s",
             email, fullname, clearPasswd, dob.toString()));
 
         Userd user = null;
+        Connection conn = null;
+        PreparedStatement checkEmail = null;
+        PreparedStatement insertUser = null;
         try{
-            // Checking to see if the email already exists in the database.
-            String sql = String.format("SELECT * from %s where email = '%s'", Userd.USER, email);
-            Connection conn = DB.getConnection();
-            Statement stmt = conn.createStatement();
-            ResultSet rs = stmt.executeQuery(sql);
+            // Get connection
+            conn = DB.getConnection();
+            //Create email statement.
+            String searchEmail = String.format("SELECT * from %s where email = ?", Userd.dquote(Userd.USER));
+            checkEmail = conn.prepareStatement(searchEmail);
+            //Create insert statement.
+            String insertUserStr = String.format("INSERT into %s (%s, %s, %s, %s, %s) VALUES ( ?, ?, ?, ?, ?)",
+                Userd.dquote(Userd.USER),
+                Userd.NAME,
+                Userd.DOB,
+                Userd.ADDRESS,
+                Userd.EMAIL,
+                Userd.PASSWD);
+            insertUser = conn.prepareStatement(insertUserStr);
+
+
+            checkEmail.setString(1, email);
+            ResultSet rs = checkEmail.executeQuery();
             if (rs.next()){
                 Logger.debug(String.format("User already registered with email %s", email));
-                throw new Userd.EmailInUseException(String.format("Email [%s] already in use", email));
+                throw new Userd.EmailInUseException(email);
             }
+
+            insertUser.setString(1, fullname);
+            insertUser.setString(2, dob.toString());
+            insertUser.setString(3, address);
+            insertUser.setString(4, email);
+            insertUser.setString(5, clearPasswd);
+            Boolean res = insertUser.execute();
+            if( !res){
+                //The statement failed
+                Logger.debug("Falied to execute statment.");
+            }
+
         }catch (SQLException e){
-            Logger.debug("Error checking for existing emails");
+            Logger.debug("Error checking for existing emails", e);
             throw e;
         }
         return user;

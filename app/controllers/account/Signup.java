@@ -7,6 +7,7 @@ import play.mvc.*;
 import play.data.*;
 import play.data.Form;
 import play.data.validation.Constraints;
+import java.sql.SQLException;
 
 import static play.data.Form.form;
 
@@ -27,6 +28,9 @@ public class Signup extends Controller {
 
         @Constraints.Required
         public String fullname;
+
+        @Constraints.Required
+        public String address;
 
         @Constraints.Required
         public String inputPassword;
@@ -55,10 +59,21 @@ public class Signup extends Controller {
             if (!inputPassword.equals(confirmPasswd)){
                 return "Passwords must match";
             }
+            if (isBlank(address)){
+                return "Address is required";
+            }
             if (dateOfBirth == null){
                 return "Date of birth is required";
             }
             
+            try{
+                Userd user = Userd.createUser(email, fullname, address, inputPassword, dateOfBirth);
+            } catch (Userd.EmailInUseException e){
+                return String.format( "Email[%s] already in use, Forgot password? Good Luck!", e.getMessage());
+            } catch (SQLException x){
+                return "Unknown error, contact administration.";
+            }
+
             return null; 
         }
 
@@ -91,7 +106,7 @@ public class Signup extends Controller {
                 registerForm.get().inputPassword,
                 registerForm.get().confirmPasswd,
                 registerForm.get().dateOfBirth.toString()));
-            return new Todo();
+            return redirect(routes.Application.index());
         }
     }
 
