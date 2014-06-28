@@ -22,7 +22,7 @@ public class Userd{
     public Boolean isVisible;
  
     // Table column names
-    public static String USER = "userd"; // Table name
+    public static String USER = "user"; // Table name
     public static String ID = "user_ID";
     public static String NAME = "name";
     public static String DOB = "dateOfBirth";
@@ -30,6 +30,26 @@ public class Userd{
     public static String ADDRESS = "address";
     public static String PASSWD = "passwordHash";
     public static String ISVISIBLE = "isVisible";
+
+    /**
+     * dquote
+     * double quotes the given string in \", for use in sql querries.
+     * @param str the string to quote
+     * @return the quoted string
+     */
+    public static String dquote(String str){
+        return "\"" + str + "\"";
+    }
+
+    /**
+     * quote
+     * single quotes the given string in \", for use in sql querries.
+     * @param str the string to quote
+     * @return the quoted string
+     */
+    public static String quote(String str){
+        return "\'" + str + "\'";
+    }
 
     /**
      * Constructor
@@ -62,7 +82,7 @@ public class Userd{
         Connection conn = null;
         try{
             conn = DB.getConnection();
-            String sql = "UPDATE" + Userd.USER;
+            String sql = "UPDATE" + Userd.dquote(Userd.USER);
                 sql += " set " + Userd.NAME + " = ?, ";
                 sql += Userd.DOB + " = ?, ";
                 sql += Userd.ADDRESS + " = ?, ";
@@ -121,16 +141,16 @@ public class Userd{
         Userd user = null;
 
         // SELECT * from Userd, where email = <email>
-        String sql = String.format( "SELECT * from %s where %s = %s",
-            USER, EMAIL, email);
-        Logger.debug(String.format("Selecting with %s", sql));
+        String sql = String.format( "SELECT * from %s where %s = ?",
+            Userd.dquote(USER), EMAIL, email);
 
         Connection conn = null;
-        Statement stmt = null; 
+        PreparedStatement pstmt = null; 
         try{
             conn = DB.getConnection();
-            stmt = conn.createStatement();
-            ResultSet rs = stmt.executeQuery(sql);
+            pstmt = conn.prepareStatement(sql);
+            pstmt.setString(1, email);
+            ResultSet rs = pstmt.executeQuery();
 
             // Load the first user, there should only be one.
             if (rs.next()){
@@ -144,14 +164,14 @@ public class Userd{
                 rs.getBoolean(Userd.ISVISIBLE));
             }
 
-            stmt.close();
+            pstmt.close();
             conn.close();
             return user;
         } catch(SQLException e){
             Logger.debug("Error while finding user by email", e);
-            if (stmt != null){
+            if (pstmt != null){
                 try{
-                    stmt.close();
+                    pstmt.close();
                 }catch (Exception x){
                     Logger.debug("Error while closing statment durring error.", x);
                 }
