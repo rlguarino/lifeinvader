@@ -83,6 +83,12 @@ public class User{
         }
     }
 
+    public static class UserDNEException extends Exception{
+        public UserDNEException(String message){
+            super(message);
+        }
+    }
+
     //TODO throw our own errors about duplicated emails, and such.
     /**
      * createUser
@@ -218,7 +224,7 @@ public class User{
      * @param connection    The jdbc connection
      * @param id            The id to select by
      */
-    public static User FindById(Long id){
+    public static User findById(Long id) throws UserDNEException{
         Logger.debug(String.format("Attempting to locate user with id"));
         User user = null;
         Connection conn = null;

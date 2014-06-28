@@ -78,7 +78,7 @@ public class UserController extends Controller {
             if (dateOfBirth == null){
                 return "Date of birth is required";
             }
-            
+
             return null;
         }
 
@@ -94,14 +94,12 @@ public class UserController extends Controller {
      *  @param  The requested settings page user's id.
      */
     @Security.Authenticated(Secured.class)
-    public static Result settings(Long user_id){
-        // Check to make sure the logged in user is the owner of the requested page.
-        if (user_id != session().get("id")){
-            //TODO Redirect to the users profile page.
-            return redirect(routes.Application.index())
-        }
+    public static Result settings(){
+        Long user_id = new Long(session("id"));
         try{
             User user = User.findById(user_id);
+        } catch (User.UserDNEException e) {
+            Logger.debug("Error:", e);
         }
         // Check for the existance of the user.
 
@@ -115,7 +113,7 @@ public class UserController extends Controller {
      *  @param the requested settings page user's id.
      */
     @Security.Authenticated(Secured.class)
-    public static Result save(Long user_id){
+    public static Result save(){
         return new Todo();
     }
 
