@@ -139,9 +139,29 @@ public class Userd{
             }
 
         }catch (SQLException e){
-            Logger.debug("Error checking for existing emails", e);
+            Logger.debug("Error creating new users", e);
+            if (insertUser != null){
+                try{
+                    insertUser.close();
+                } catch (Exception x){Logger.debug("Caught error while handling another error.", x);}
+            }
+            if (checkEmail != null){
+                try{
+                    checkEmail.close();
+                } catch (Exception x){Logger.debug("Caught error while handling another error.", x);}
+            }
+            if (conn != null){
+                try{
+                    conn.close();
+                } catch (Exception x){Logger.debug("Caught error while handling another error.", x);}
+            }
             throw e;
         }
+
+        // Close connections
+        insertUser.close();
+        checkEmail.close();
+        conn.close();
         return user;
 
     }
