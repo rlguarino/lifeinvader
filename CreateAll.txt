@@ -50,8 +50,8 @@ Foreign Key (wallID) REFERENCES "wall"(wall_ID)
 Create Table "request" (
 senderID int NOT NULL,
 receiverID int NOT NULL,
-Foreign Key (senderID) REFERENCES "user"(userID),
-Foreign Key (receieverID) REFERENCES "user"(userID)
+Foreign Key (senderID) REFERENCES "user"(user_ID),
+Foreign Key (receiverID) REFERENCES "user"(user_ID)
 );
 
 
