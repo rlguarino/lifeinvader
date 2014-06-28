@@ -12,11 +12,11 @@ import static play.data.Form.form;
 
 // App imports
 import views.html.*;
-import models.Userd;
+import models.User;
 
 public class UserController extends Controller {
 
-	public static void setSetting(Userd user){
+	public static void setSetting(User user){
 
 		if(user == null){
 			return;

@@ -13,7 +13,7 @@ import static play.data.Form.form;
 
 // App imports
 import views.html.*;
-import models.Userd;
+import models.User;
 
 
 public class Signup extends Controller {
@@ -67,8 +67,8 @@ public class Signup extends Controller {
             }
             
             try{
-                Userd user = Userd.createUser(email, fullname, address, inputPassword, dateOfBirth);
-            } catch (Userd.EmailInUseException e){
+                User user = User.createUser(email, fullname, address, inputPassword, dateOfBirth);
+            } catch (User.EmailInUseException e){
                 return String.format( "Email[%s] already in use, Forgot password? Good Luck!", e.getMessage());
             } catch (SQLException x){
                 return "Unknown error, contact administration.";

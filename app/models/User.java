@@ -13,7 +13,7 @@ import java.sql.ResultSet;
 import java.util.Date;
 
 
-public class Userd{
+public class User{
     public Long id;
     public String name;
     public String dob;
@@ -62,7 +62,7 @@ public class Userd{
      * @param passwordHash  The hash of the users password
      * 
      */
-    public Userd(Long id, String name, String dob, String address, String email, String passwordHash, Boolean isVisible){
+    public User(Long id, String name, String dob, String address, String email, String passwordHash, Boolean isVisible){
         this.id = id;
         this.name = name;
         this.dob = dob;
@@ -95,11 +95,11 @@ public class Userd{
      * @param dob           The date of birth for the new user
      * @return              The new user if successful, null otherwise.
      */
-    public static Userd createUser(String email, String fullname, String address, String clearPasswd, Date dob) throws EmailInUseException, SQLException{
+    public static User createUser(String email, String fullname, String address, String clearPasswd, Date dob) throws EmailInUseException, SQLException{
         Logger.debug(String.format("Attemping to create user with %s, %s, %s %s",
             email, fullname, clearPasswd, dob.toString()));
 
-        Userd user = null;
+        User user = null;
         Connection conn = null;
         PreparedStatement checkEmail = null;
         PreparedStatement insertUser = null;
@@ -107,16 +107,16 @@ public class Userd{
             // Get connection
             conn = DB.getConnection();
             //Create email statement.
-            String searchEmail = String.format("SELECT * from %s where email = ?", Userd.dquote(Userd.USER));
+            String searchEmail = String.format("SELECT * from %s where email = ?", User.dquote(User.USER));
             checkEmail = conn.prepareStatement(searchEmail);
             //Create insert statement.
             String insertUserStr = String.format("INSERT into %s (%s, %s, %s, %s, %s) VALUES ( ?, ?, ?, ?, ?)",
-                Userd.dquote(Userd.USER),
-                Userd.NAME,
-                Userd.DOB,
-                Userd.ADDRESS,
-                Userd.EMAIL,
-                Userd.PASSWD);
+                User.dquote(User.USER),
+                User.NAME,
+                User.DOB,
+                User.ADDRESS,
+                User.EMAIL,
+                User.PASSWD);
             insertUser = conn.prepareStatement(insertUserStr);
 
 
@@ -124,7 +124,7 @@ public class Userd{
             ResultSet rs = checkEmail.executeQuery();
             if (rs.next()){
                 Logger.debug(String.format("User already registered with email %s", email));
-                throw new Userd.EmailInUseException(email);
+                throw new User.EmailInUseException(email);
             }
 
             insertUser.setString(1, fullname);
@@ -175,14 +175,14 @@ public class Userd{
         Connection conn = null;
         try{
             conn = DB.getConnection();
-            String sql = "UPDATE" + Userd.dquote(Userd.USER);
-                sql += " set " + Userd.NAME + " = ?, ";
-                sql += Userd.DOB + " = ?, ";
-                sql += Userd.ADDRESS + " = ?, ";
-                sql += Userd.EMAIL + " = ?, ";
-                sql += Userd.PASSWD + " = ?, ";
-                sql += Userd.ISVISIBLE + " = ? ";
-                sql += "where " + Userd.ID + " = ?";
+            String sql = "UPDATE" + User.dquote(User.USER);
+                sql += " set " + User.NAME + " = ?, ";
+                sql += User.DOB + " = ?, ";
+                sql += User.ADDRESS + " = ?, ";
+                sql += User.EMAIL + " = ?, ";
+                sql += User.PASSWD + " = ?, ";
+                sql += User.ISVISIBLE + " = ? ";
+                sql += "where " + User.ID + " = ?";
 
             Logger.debug("Generated update: [%s]", sql);
             pstmt = conn.prepareStatement(sql);
@@ -218,7 +218,7 @@ public class Userd{
      * @param connection    The jdbc connection
      * @param id            The id to select by
      */
-    public static Userd FindById(){
+    public static User FindById(){
         //TODO
         return null;
     }
@@ -228,14 +228,14 @@ public class Userd{
      * Searches the database for a User object using the email.
      *
      * @param email     The email address for the user
-     * @return          The userd id successful null if not.
+     * @return          The User id successful null if not.
      */
-    public static Userd findByEmail(String email) throws SQLException{
-        Userd user = null;
+    public static User findByEmail(String email) throws SQLException{
+        User user = null;
 
-        // SELECT * from Userd, where email = <email>
+        // SELECT * from User, where email = <email>
         String sql = String.format( "SELECT * from %s where %s = ?",
-            Userd.dquote(USER), EMAIL, email);
+            User.dquote(USER), EMAIL, email);
 
         Connection conn = null;
         PreparedStatement pstmt = null; 
@@ -247,14 +247,14 @@ public class Userd{
 
             // Load the first user, there should only be one.
             if (rs.next()){
-                user = new Userd(
-                rs.getLong(Userd.ID),
-                rs.getString(Userd.NAME),
-                rs.getString(Userd.DOB),
-                rs.getString(Userd.ADDRESS),
-                rs.getString(Userd.EMAIL),
-                rs.getString(Userd.PASSWD),
-                rs.getBoolean(Userd.ISVISIBLE));
+                user = new User(
+                rs.getLong(User.ID),
+                rs.getString(User.NAME),
+                rs.getString(User.DOB),
+                rs.getString(User.ADDRESS),
+                rs.getString(User.EMAIL),
+                rs.getString(User.PASSWD),
+                rs.getBoolean(User.ISVISIBLE));
             }
 
             pstmt.close();
@@ -283,17 +283,17 @@ public class Userd{
 
     /**
      * authenticate
-     * returns a Userd if the email, and clearPassword are correct,
+     * returns a User if the email, and clearPassword are correct,
      *      otherwise returns null
      *
      * @param email         The Users email
      * @param clearPasswd   The users password
      * @param conn          The jdbc connection
      */
-    public static Userd authenticate(String email, String clearPasswd){
+    public static User authenticate(String email, String clearPasswd){
         // TODO: Actually hash passwords
         // TODO: Throw exceptions
-        Userd user = null;
+        User user = null;
         try{
             user = findByEmail(email);
         } catch (SQLException e){
@@ -314,16 +314,16 @@ public class Userd{
     /**
     * Returns a user's settings.
     */
-    public static Userd returnSettings(Userd user){
+    public static User returnSettings(User user){
         Logger.debug("Returning " + user + "'s settings");
-        //TypedQuery<Userd> query = JPA.em().find
+        //TypedQuery<User> query = JPA.em().find
         return user;
     }
 
     /**
     * Creates a new user in the database.
     */
-    public static void createUser(Userd user){
+    public static void createUser(User user){
         Logger.debug("Saving User "+ user + " to database.");
     //place holder
     }
@@ -331,14 +331,14 @@ public class Userd{
     /**
     * Updates a user's information in the database.
     */
-    public static void updateUser(Userd user){
+    public static void updateUser(User user){
         Logger.debug("Updating User " + user + " in database.");
     }
 
     /**
     * Hides a user's information in the database.
     */
-    public static void deleteUser(Userd user){
+    public static void deleteUser(User user){
         Logger.debug("Deleting User " + user + " in database.");
     }
 }

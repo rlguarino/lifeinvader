@@ -11,7 +11,7 @@ import static play.data.Form.form;
 
 // App imports
 import views.html.*;
-import models.Userd;
+import models.User;
 
 public class Application extends Controller {
     
@@ -50,7 +50,7 @@ public class Application extends Controller {
                 return "Password is required";
             }
             //TODO: Catch exceptions here.
-            if( Userd.authenticate(email, password) == null){
+            if( User.authenticate(email, password) == null){
                 return "Invalid user or password";
             }
             return null;
