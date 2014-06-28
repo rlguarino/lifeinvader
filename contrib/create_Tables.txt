@@ -7,7 +7,7 @@ dateOfBirth varchar(30),
 address varchar(40),
 email varchar(40),
 passwordHash varchar(100),
-isVisible boolean NOT NULL,
+isVisible boolean NOT NULL DEFAULT true,
 Primary Key (user_ID)
 );
 
