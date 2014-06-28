@@ -52,13 +52,14 @@ public class Signup extends Controller {
             if (isBlank(inputPassword)){
                 return "Password is required";
             }
+            if (!inputPassword.equals(confirmPasswd)){
+                return "Passwords must match";
+            }
             if (dateOfBirth == null){
                 return "Date of birth is required";
             }
             
-            
-
-            return null;
+            return null; 
         }
 
         private boolean isBlank(String input) {
@@ -80,7 +81,18 @@ public class Signup extends Controller {
      */
     public static Result register(){
         Logger.debug(String.format("Registering a new user"));
-        return new Todo();
+        Form<Register> registerForm = form(Register.class).bindFromRequest();
+        if (registerForm.hasErrors()){
+            return badRequest(register.render(registerForm));
+        }else{
+            Logger.debug(String.format("Email: %s Name: %s Passwd %s, CPasswd %s Birthdate %s",
+                registerForm.get().email,
+                registerForm.get().fullname,
+                registerForm.get().inputPassword,
+                registerForm.get().confirmPasswd,
+                registerForm.get().dateOfBirth.toString()));
+            return new Todo();
+        }
     }
 
 }
