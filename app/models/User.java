@@ -218,9 +218,55 @@ public class User{
      * @param connection    The jdbc connection
      * @param id            The id to select by
      */
-    public static User FindById(){
-        //TODO
-        return null;
+    public static User FindById(Long id){
+        Logger.debug(String.format("Attempting to locate user with id"));
+        User user = null;
+        Connection conn = null;
+        PreparedStatement pstmt = null;
+
+        try{
+            conn = DB.getConnection();
+            //Select * from user where user_id = <id>;
+            String select = String.format("SELECT * FROM %s WHERE %s = ? ", User.USER, User.ID);
+            pstmt = conn.prepareStatement(select);
+            pstmt.setLong(1, id);
+            ResultSet rs = pstmt.executeQuery();
+
+            // There should only be one.
+            if (rs.next()){
+                user = new User(
+                    rs.getLong(User.ID),
+                    rs.getString(User.NAME),
+                    rs.getString(User.DOB),
+                    rs.getString(User.ADDRESS),
+                    rs.getString(User.EMAIL),
+                    rs.getString(User.PASSWD),
+                    rs.getBoolean(User.ISVISIBLE));
+            }
+            // Raise an error.
+
+            // Close connections
+            pstmt.close();
+            conn.close();
+            return user;
+        } catch (SQLException e ){
+            Logger.debug("Error while selecting a user by id", e);
+            if (pstmt != null) {
+                try{
+                    pstmt.close();
+                } catch (Exception x){
+                    Logger.debug("Error while erroring", x);
+                }
+            }
+            if (conn != null){
+                try{
+                    conn.close();
+                } catch (Exception x){
+                    Logger.debug("Error while erroring", x);
+                }
+            }
+            return null;
+        } 
     }
 
     /**
@@ -248,13 +294,13 @@ public class User{
             // Load the first user, there should only be one.
             if (rs.next()){
                 user = new User(
-                rs.getLong(User.ID),
-                rs.getString(User.NAME),
-                rs.getString(User.DOB),
-                rs.getString(User.ADDRESS),
-                rs.getString(User.EMAIL),
-                rs.getString(User.PASSWD),
-                rs.getBoolean(User.ISVISIBLE));
+                    rs.getLong(User.ID),
+                    rs.getString(User.NAME),
+                    rs.getString(User.DOB),
+                    rs.getString(User.ADDRESS),
+                    rs.getString(User.EMAIL),
+                    rs.getString(User.PASSWD),
+                    rs.getBoolean(User.ISVISIBLE));
             }
 
             pstmt.close();
