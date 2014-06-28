@@ -321,14 +321,6 @@ public class Userd{
     }
 
     /**
-    * Creates a new user in the database.
-    */
-    public static void createUser(Userd user){
-        Logger.debug("Saving User "+ user + " to database.");
-    //place holder
-    }
-
-    /**
     * Updates a user's information in the database.
     */
     public static void updateUser(Userd user){
