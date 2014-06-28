@@ -16,5 +16,9 @@ GET     /logout                     controllers.Application.logout()
 GET     /register                   controllers.Signup.registration()
 POST    /register                   controllers.Signup.register()
 
+# User Pages
+GET     /settings                   controllers.UserController.settings()
+POST    /settings                   controllers.UserController.save()
+
 # Map static resources from the /public folder to the /assets URL path
 GET     /assets/*file               controllers.Assets.at(path="/public", file)

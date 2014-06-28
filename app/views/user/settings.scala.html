@@ -1,0 +1,68 @@
+@(settingsForm: Form[UserController.SettingsForm])
+
+@importhelper._
+
+<html>
+    <head>
+        <title>Lifeinvader</title>
+        <link rel="shortcut icon" type="image/png" href="@routes.Assets.at("images/favicon.png")">
+        <link rel="stylesheet" type="text/css" media="screen" href="@routes.Assets.at("stylesheets/login.css")">
+    </head>
+    <body>
+        <header>
+            <a href="@routes.Application.index" id="logo"><span>Life</span>invader</a>
+        </header>
+  
+@form(routes.UserController.save(), 'class -> "form") {
+
+    @if(settingsForm.hasGlobalErrors) {
+        <p class="error">
+            <span class="label label-danger">@settingsForm.globalError.message</span>
+        </p>
+    }
+
+    <fieldset>
+        @inputText(
+            settingsForm("email"),
+            'class -> "form-control",
+            '_label -> "Email"
+        )
+        @inputText(
+            settingsForm("fullname"),
+            'class -> "form-control",
+            '_label -> "Full Name"
+        )
+        @inputText(
+            settingsForm("address"),
+            'class -> "form-control",
+            '_label -> "Address"
+        )
+        @inputPassword(
+            settingsForm("currentPasswd"),
+            'class -> "form-control",
+            '_label -> "Current Password"
+        )
+        @inputPassword(
+            settingsForm("inputPassword"),
+            'class -> "form-control",
+            '_label -> "New Password"
+        )
+        @inputPassword(
+            settingsForm("confirmPasswd"),
+            'class -> "form-control",
+            '_lable -> "Confirm New Password"
+        )
+        @inputDate(
+            settingsForm("dateOfBirth"),
+            'class -> "form-control",
+            '_label -> "Birthdate"
+        )
+    </fieldset>
+
+    <div class="form-actions">
+        <input type="submit" class="btn btn-primary" value="@Messages("Save")">
+    </div>
+}
+
+    </body>
+</html>
