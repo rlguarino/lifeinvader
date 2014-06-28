@@ -73,6 +73,16 @@ public class Userd{
     }
 
 
+    /**
+     * Exception that the email is already in use.
+     *
+     */
+    public static class EmailInUseException extends Exception{
+        public EmailInUseException(String message){
+            super(message);
+        }
+    }
+
     //TODO throw our own errors about duplicated emails, and such.
     /**
      * createUser
@@ -98,10 +108,11 @@ public class Userd{
             ResultSet rs = stmt.executeQuery(sql);
             if (rs.next()){
                 Logger.debug(String.format("User already registered with email %s", email));
-                return null;
+                throw new Userd.EmailInUseException(String.format("Email [%s] already in use", email));
             }
         }catch (SQLException e){
             Logger.debug("Error checking for existing emails");
+            throw e;
         }
         return user;
 
