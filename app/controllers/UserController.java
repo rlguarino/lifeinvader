@@ -90,9 +90,15 @@ public class UserController extends Controller {
             return notFound();
         }
 
+        Form<SettingsForm> form = form(SettingsForm.class);
+        SettingsForm sf = new SettingsForm();
+        sf.email = user.email;
+        sf.fullname = user.name;
+        sf.address = user.address;
+        sf.dateOfBirth = new Date(user.dob);
 
         // Fill in the usersettings form.
-        return ok(settings.render(form(SettingsForm.class)));
+        return ok(settings.render(form.fill(sf)));
         //return new Todo();
     }
 
