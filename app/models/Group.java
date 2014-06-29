@@ -7,15 +7,15 @@ import java.sql.*;
 import play.Logger;
 
 
-//Group size initialized 
+
 public class Group {
 
-	public Long groupId;
+	public Long group_Id;
 	public String name;
 	public int groupsize;
 
 	public static String GROUP = "group"; // Table Name is Group
-	public static Long GROUP_ID = "groupid";
+	public static Long GROUPID = "group_id";
 	public static String NAME = "name";
 	
 	/**
@@ -44,11 +44,11 @@ public class Group {
 	*
 	* @param id: 		The id of the group
 	* @param name: 		The name of the group
-	* @param groupsize: The groupsize 
+	* @param groupsize: The size of the group
 	*
 	*/
-	public Group (Long groupid, String name, int groupsize) {
-		this.groupId = groupId;
+	public Group (Long group_Id, String name, int groupsize) {
+		this.group_Id = group_Id;
 		this.name = name;
 		this.groupsize = groupsize;
 	} 
@@ -60,17 +60,17 @@ public class Group {
 	*/
 	public void Persist(){
 
-		PreparedStatement = pstmt = null;
+		PreparedStatement pstmt = null;
 		Connection conn = null;
 		try {
 			conn = DB.getConnection();
 			String sql = "UPDATE" + Group.dquote(Group.GROUP);
 				sql += " set " + Group.NAME + " = ?, ";
-				sql += "where " + Group.GROUP_ID + " = ?";
+				sql += "where " + Group.GROUPID + " = ?";
 			Logger.debug("Generated update: [%s]", sql);
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setString(1,this.name);
-			pstmt.setString(2,this.groupId);
+			pstmt.setString(2,this.group_Id);
 
 			pstmt.executeUpdate();
 

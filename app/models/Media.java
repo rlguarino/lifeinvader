@@ -7,15 +7,16 @@ import java.sql.*;
 import play.Logger;
 
 
+// Wall object initialized
+public class Media {
 
-public class Wall {
-
-	public Long wall_ID;
-	public Long user_ID;
-	public Long group_ID;
+	public Long media_ID;
+	public String file_name;
+	public String file_location;
+	public String Display
 
 	// Table column names
-	public static String WALL = "wall"; // Table Name is Wall
+	public static String Media = "wall"; // Table Name is Wall
 	public static Long WALLID = "wall_ID"; 
 	public static Long USERID = "user_ID";
 	public static Long GROUPID = "group_ID";
@@ -55,6 +56,7 @@ public class Wall {
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setString(1, this.user_ID);
 			pstmt.setString(2, this.group_ID);
+			pstmt.setString(3, this.wall_ID);
 
 			pstmt.executeUpdate();
 
