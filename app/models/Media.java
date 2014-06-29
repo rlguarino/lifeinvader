@@ -7,21 +7,22 @@ import java.sql.*;
 import play.Logger;
 
 
-// Wall object initialized
+
 public class Media {
 
 	public Long media_ID;
 	public String file_name;
 	public String file_location;
-	public String Display
+	public String display_name;
+}
 
-	// Table column names
+	/*// Table column names
 	public static String Media = "wall"; // Table Name is Wall
 	public static Long WALLID = "wall_ID"; 
 	public static Long USERID = "user_ID";
 	public static Long GROUPID = "group_ID";
 	
-	/**
+	/*
 	*
 	* Constructor
 	*
@@ -86,4 +87,4 @@ public class Media {
      	//TODO
      	return null;
      }
-}
+}*/
