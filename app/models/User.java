@@ -10,13 +10,12 @@ import play.Logger;
 import java.util.Calendar;
 import java.sql.Timestamp;
 import java.sql.ResultSet;
-import java.util.Date;
 
 
 public class User{
     public Long id;
     public String name;
-    public String dob;
+    public Long dob;
     public String address;
     public String email;
     public String passwordHash;
@@ -62,7 +61,7 @@ public class User{
      * @param passwordHash  The hash of the users password
      * 
      */
-    public User(Long id, String name, String dob, String address, String email, String passwordHash, Boolean isVisible){
+    public User(Long id, String name, long dob, String address, String email, String passwordHash, Boolean isVisible){
         this.id = id;
         this.name = name;
         this.dob = dob;
@@ -101,7 +100,7 @@ public class User{
      * @param dob           The date of birth for the new user
      * @return              The new user if successful, null otherwise.
      */
-    public static User createUser(String email, String fullname, String address, String clearPasswd, Date dob) throws EmailInUseException, SQLException{
+    public static User createUser(String email, String fullname, String address, String clearPasswd, Long dob) throws EmailInUseException, SQLException{
         Logger.debug(String.format("Attemping to create user with %s, %s, %s %s",
             email, fullname, clearPasswd, dob.toString()));
 
@@ -134,7 +133,7 @@ public class User{
             }
 
             insertUser.setString(1, fullname);
-            insertUser.setString(2, dob.toString());
+            insertUser.setLong(2, dob);
             insertUser.setString(3, address);
             insertUser.setString(4, email);
             insertUser.setString(5, clearPasswd);
@@ -193,7 +192,7 @@ public class User{
             Logger.debug("Generated update: [%s]", sql);
             pstmt = conn.prepareStatement(sql);
             pstmt.setString(1, this.name);
-            pstmt.setString(2, this.dob);
+            pstmt.setLong(2, this.dob);
             pstmt.setString(3, this.address);
             pstmt.setString(4, this.email);
             pstmt.setString(5, this.passwordHash);
@@ -243,7 +242,7 @@ public class User{
                 user = new User(
                     rs.getLong(User.ID),
                     rs.getString(User.NAME),
-                    rs.getString(User.DOB),
+                    rs.getLong(User.DOB),
                     rs.getString(User.ADDRESS),
                     rs.getString(User.EMAIL),
                     rs.getString(User.PASSWD),
@@ -303,7 +302,7 @@ public class User{
                 user = new User(
                     rs.getLong(User.ID),
                     rs.getString(User.NAME),
-                    rs.getString(User.DOB),
+                    rs.getLong(User.DOB),
                     rs.getString(User.ADDRESS),
                     rs.getString(User.EMAIL),
                     rs.getString(User.PASSWD),

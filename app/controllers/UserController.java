@@ -13,6 +13,7 @@ import static play.data.Form.form;
 
 // App imports
 import views.html.*;
+import views.html.profile.*; 
 import models.User;
 
 public class UserController extends Controller {
@@ -44,23 +45,6 @@ public class UserController extends Controller {
 
 
         /**
-         * Constructor
-         * @param email     Default email
-         * @param fullname  Defualt fullname
-         * @param address   Default address
-         * @param dateOfBirth   Default date of birth
-         */
-        public SettingsForm(String email, String fullname, String address, Date dateOfBirth){
-            super();
-            this.email = fullname;
-            this.fullname = fullname;
-            this.address = address;
-            this.dateOfBirth = dateOfBirth;
-            this.inputPassword = "";
-            this.confirmPasswd = ""; 
-        }
-
-        /**
          * Validate the settings form.
          *
          * @return null if validation ok, string with details otherwise
@@ -87,7 +71,6 @@ public class UserController extends Controller {
         }
     } 
 
-
     /**
      *  settings
      *  Displays the user settings page.
@@ -96,15 +79,21 @@ public class UserController extends Controller {
     @Security.Authenticated(Secured.class)
     public static Result settings(){
         Long user_id = new Long(session("id"));
+        User user = null;
         try{
-            User user = User.findById(user_id);
+            user = User.findById(user_id);
         } catch (User.UserDNEException e) {
             Logger.debug("Error:", e);
         }
-        // Check for the existance of the user.
+        
+        if (user == null){
+            return notFound();
+        }
+
 
         // Fill in the usersettings form.
-        return new Todo();
+        return ok(settings.render(form(SettingsForm.class)));
+        //return new Todo();
     }
 
     /**

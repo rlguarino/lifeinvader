@@ -67,7 +67,7 @@ public class Signup extends Controller {
             }
             
             try{
-                User user = User.createUser(email, fullname, address, inputPassword, dateOfBirth);
+                User user = User.createUser(email, fullname, address, inputPassword, dateOfBirth.getTime());
             } catch (User.EmailInUseException e){
                 return String.format( "Email[%s] already in use, Forgot password? Good Luck!", e.getMessage());
             } catch (SQLException x){

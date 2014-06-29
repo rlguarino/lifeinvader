@@ -3,7 +3,7 @@
 Create Table "user" (
 user_ID SERIAL NOT NULL,
 name varchar(30) NOT NULL,
-dateOfBirth varchar(30),
+dateOfBirth bigint,
 address varchar(40),
 email varchar(40),
 passwordHash varchar(100),
