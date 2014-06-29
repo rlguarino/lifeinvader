@@ -1,0 +1,23 @@
+body {
+	text-align: center;
+	white-space: nowrap;
+}
+
+.ProfileField {
+	display: inline-block;
+	float: left;
+	width: 30%;
+	height: 80%;
+	background-color: #C0C0C0;
+}
+
+.DisplayName {
+	text-align: center;
+}
+
+a {
+	color: white;
+	height: 100%;
+	width: 100%;
+	display: block;
+}
