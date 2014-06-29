@@ -1,3 +1,4 @@
+-- Insert 7 different users: Robin, Jane, Bob, Chris, Roger, Alex, and Ashley
 
 Insert into "user" values(1, 'Robin Li', '01/01/1991','1 Bay St','rxl1@rit.edu','therem',True);
 
@@ -15,6 +16,8 @@ Insert into "user" values(7, 'Ashley Rivera', '07/07/1997','7 Bay St', 'ara7@rit
 
 
 
+-- Insert 5 different groups: Vegans, Animal Rights, Increase the Minimum Wage, Lower College Tuition, K-pop users, Pie lovers 
+-- Users can join any group
 
 Insert into "group" values(11, 'Vegans', 50);
 
@@ -26,8 +29,12 @@ Insert into "group" values(14, 'Lower College Tuition', 50000);
 
 Insert into "group" values(15, 'K-pop', 100000);
 
+Insert into "group" values(16, 'Pie lovers', 20);
 
 
+
+
+-- Insert 7 walls, each person has their own wall
 
 Insert into "wall" values(21, 1, 11);
 
@@ -39,19 +46,25 @@ Insert into "wall" values(24, 4, 14);
 
 Insert into "wall" values(25, 5, 15);
 
+Insert into "wall" values(26, 6, 16);
+
+Insert into "wall" values(27, 7, 15);
 
 
+
+-- Insert 4 different posts, each made by a different user, Robin and Jane posted on Robin's wall. Bob and Chris posted on Bob's wall. 
 
 Insert into "post" values(31, 1, 21, 'I bought a new laptop! This lenovo yoga 2 pro is awesome', '03/14/2014 3:43', 'text');
 
-Insert into "post" values(32, 1, 21, 'Nice, I also have the lenovo yoga 2 pro, it is the bomb', '03/15/2014 5:23', 'text');
+Insert into "post" values(32, 2, 21, 'Nice, I also have the lenovo yoga 2 pro, it is the bomb', '03/15/2014 5:23', 'text');
 
-Insert into "post" values(33, 2, 22, 'Does anybody have any tips for getting this job?', '06/25/2014 3:52', 'text');
+Insert into "post" values(33, 3, 22, 'Does anybody have any tips for getting this job?', '06/25/2014 3:52', 'text');
 
-Insert into "post" values(34, 2, 22, 'Hey you should check out the book for coding interviews, that is how I got my job', '06/26/2014 6:21', 'text');
+Insert into "post" values(34, 4, 22, 'Hey you should check out the book for coding interviews, that is how I got my job', '06/26/2014 6:21', 'text');
 
 
 
+-- 5 different requests are made: Ashley sent a request to Robin and Jane. Alex sent a request to Bob and Chris. Roger sent a request to Robin.
 
 Insert into "request" values(7, 1);
 
@@ -65,6 +78,7 @@ Insert into "request" values(5, 1);
 
 
 
+-- Robin and Jane are friends. Robin and Bob are friends. Robin and Chris are friends. Jane and Bob are friends. Roger and Alex are friends.
 
 Insert into "friend" values(1, 2);
 Insert into "friend" values(2, 1);
@@ -82,6 +96,10 @@ Insert into "friend" values(5, 6);
 Insert into "friend" values(6, 5);
 
 
+
+-- Robin, Jane, and Bob are members of the Vegan group. Bob and Ashley are members of the Animal Rights group. 
+-- Chris and Alex are members of the Increase the Minimum Wage Group. Chris is a member of the Lower College Tuition group.
+-- Chris and Robin are members of the K-pop group.
 
 Insert into "member" values(11, 1);
 Insert into "member" values(11, 2);
