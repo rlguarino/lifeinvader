@@ -5,9 +5,9 @@ import play.mvc.*;
 import play.data.*;
 import play.data.Form;
 import play.data.validation.Constraints;
+import java.sql.*;
 
 import static play.data.Form.form;
-
 
 // App imports
 import views.html.*;
@@ -78,8 +78,18 @@ public class Application extends Controller {
         if (loginForm.hasErrors()){
             return badRequest(login.render(loginForm));
         } else {
-            session().clear();
-            session("id", loginForm.get().email);
+            try{
+                User user = User.findByEmail(loginForm.get().email);
+                session().clear();
+                session("id", user.id.toString());
+            } catch (User.UserDNEException e){
+                session().clear();
+                Logger.debug("Error while getting user for authentication", e);
+            } catch (Exception e){
+                session().clear();
+                Logger.debug("Error while getting user for authentication", e);
+            }
+            
             return redirect(routes.Application.index());
         }
     }

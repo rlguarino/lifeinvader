@@ -224,7 +224,7 @@ public class User{
      * @param connection    The jdbc connection
      * @param id            The id to select by
      */
-    public static User findById(Long id) throws UserDNEException{
+    public static User findById(Long id) throws UserDNEException, UserDNEException{
         Logger.debug(String.format("Attempting to locate user with id"));
         User user = null;
         Connection conn = null;
@@ -248,9 +248,10 @@ public class User{
                     rs.getString(User.EMAIL),
                     rs.getString(User.PASSWD),
                     rs.getBoolean(User.ISVISIBLE));
+            }else{
+                // No user was found
+                throw new UserDNEException(id.toString());
             }
-            // Raise an error.
-
             // Close connections
             pstmt.close();
             conn.close();
@@ -282,7 +283,7 @@ public class User{
      * @param email     The email address for the user
      * @return          The User id successful null if not.
      */
-    public static User findByEmail(String email) throws SQLException{
+    public static User findByEmail(String email) throws SQLException, UserDNEException{
         User user = null;
 
         // SELECT * from User, where email = <email>
@@ -307,6 +308,9 @@ public class User{
                     rs.getString(User.EMAIL),
                     rs.getString(User.PASSWD),
                     rs.getBoolean(User.ISVISIBLE));
+            }else{
+                // No user was found
+                throw new UserDNEException(email);
             }
 
             pstmt.close();
@@ -350,7 +354,10 @@ public class User{
             user = findByEmail(email);
         } catch (SQLException e){
             return null;
-        }
+        } catch (UserDNEException e){
+            Logger.debug("User did not exist");
+            return null;
+        } 
 
         if (user != null) {
             // We have a user, now check for the passwords to match.
