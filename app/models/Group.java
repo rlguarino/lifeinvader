@@ -64,7 +64,7 @@ public class Group {
 		Connection conn = null;
 		try {
 			conn = DB.getConnection();
-			String sql = "UPDATE" + Group.dquote(Group.GROUP);
+			String sql = "UPDATE " + Group.dquote(Group.GROUP);
 				sql += " set " + Group.NAME + " = ?, ";
 				sql += "where " + Group.GROUPID + " = ?";
 			Logger.debug("Generated update: [%s]", sql);

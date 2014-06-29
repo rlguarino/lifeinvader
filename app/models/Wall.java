@@ -46,7 +46,7 @@ public class Wall {
 		Connection conn = null;
 		try {
 			conn = DB.getConnection();
-			String sql = "UPDATE" + Wall.Userd.dquote(Wall.WALL);
+			String sql = "UPDATE " + Wall.Userd.dquote(Wall.WALL);
 				sql += " set " + Wall.USERID " = ?, ";
 				sql += Wall.GROUPID " = ?, ";
 				sql += "where " + Wall.WALLID + " = ?";
