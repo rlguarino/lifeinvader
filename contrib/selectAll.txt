@@ -1,0 +1,7 @@
+select * from "user";
+select * from "group";
+select * from "wall";
+select * from "post";
+select * from "request";
+select * from "friend";
+select * from "member";
