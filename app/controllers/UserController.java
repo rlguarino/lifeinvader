@@ -112,10 +112,4 @@ public class UserController extends Controller {
         return new Todo();
     }
 
-	public static void setSetting(User user){
-
-		if(user == null){
-			return;
-		}
-	}
 }
