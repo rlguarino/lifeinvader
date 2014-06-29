@@ -88,6 +88,46 @@ public class User{
         }
     }
 
+
+    /**
+     *  countEmail
+     *  returns the number of accounts that have this email
+     *  @param email    The email to count
+     *  @return         The number of accounts that have this email
+     */
+    public static int countEmail(String email){
+        Connection conn = null;
+        PreparedStatement countEmail = null;
+        Integer r = 0;
+        try{
+            conn = DB.getConnection();
+            String sql = String.format("SELECT count(*) form %s where %s = ?", User.dquote(User.USER), User.EMAIL);
+            countEmail = conn.prepareStatement(sql);
+            countEmail.setString(1, email);
+            ResultSet rs = countEmail.executeQuery();
+            if (rs.next()){
+                r = rs.getInt(1);
+            }
+            countEmail.close();
+            conn.close();
+        } catch (SQLException e){
+            Logger.debug("Error while trying to count email", e);
+            if (countEmail != null){
+                try{
+                    countEmail.close();
+                } catch (Exception x){Logger.debug("Caught error while handling another error.", x);}
+            }
+            if (conn != null){
+                try{
+                    conn.close();
+                } catch (Exception x){Logger.debug("Caught error while handling another error.", x);}
+            }
+        }
+
+        
+        return r;
+    }
+
     //TODO throw our own errors about duplicated emails, and such.
     /**
      * createUser

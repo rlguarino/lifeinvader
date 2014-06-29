@@ -109,7 +109,36 @@ public class UserController extends Controller {
      */
     @Security.Authenticated(Secured.class)
     public static Result save(){
-        return new Todo();
+        Long user_id = new Long(session("id"));
+        User user = null;
+        try{
+            user = User.findById(user_id);
+        } catch (User.UserDNEException e) {
+            Logger.debug("Error:", e);
+        }
+        // Check to make sure we got a user
+        if (user == null){
+            return notFound();
+        }
+
+        // Get form data.
+        Form<SettingsForm> settingsForm = form(SettingsForm.class).bindFromRequest();
+        if (settingsForm.hasErrors()){
+            return badRequest(settings.render(settingsForm));
+        } else{
+            if ( User.countEmail(settingsForm.get().email) > 1 ){
+                settingsForm.reject("email", "Invalid email");
+                badRequest(settings.render(settingsForm));
+            }
+            user.email = settingsForm.get().email;
+            user.name = settingsForm.get().fullname;
+            user.address = settingsForm.get().address;
+            user.dob = settingsForm.get().dateOfBirth.getTime();
+
+            user.Persist();
+
+        }
+        return redirect(routes.Application.index());
     }
 
 }
