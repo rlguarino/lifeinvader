@@ -233,7 +233,7 @@ public class User{
         try{
             conn = DB.getConnection();
             //Select * from user where user_id = <id>;
-            String select = String.format("SELECT * FROM %s WHERE %s = ? ", User.USER, User.ID);
+            String select = String.format("SELECT * FROM %s WHERE %s = ? ", User.dquote(User.USER), User.ID);
             pstmt = conn.prepareStatement(select);
             pstmt.setLong(1, id);
             ResultSet rs = pstmt.executeQuery();
