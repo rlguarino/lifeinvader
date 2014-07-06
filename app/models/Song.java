@@ -16,7 +16,7 @@ public class Song extends Media {
 
 	// Table column names
 	public static String SONG = "song"; // Table Name is Song
-	public static Long MEDIA_ID = "media_ID";
+	public static String MEDIA_ID = "media_ID";
 	public static String FILE_NAME = "file_name";
 	public static String FILE_LOCATION = "file_location";
 	public static String DISPLAY_NAME = "display_name";
@@ -57,7 +57,7 @@ public class Song extends Media {
 		Connection conn = null;
 		try {
 			conn = DB.getConnection();
-			String sql = "UPDATE " + Song.Userd.dquote(Song.SONG);
+			String sql = "UPDATE " + Userd.dquote(Song.SONG);
 				sql += " set " + Song.FILE_NAME + " = ?, ";
 				sql += Song.FILE_LOCATION + " = ?, ";
 				sql += Song.DISPLAY_NAME + " = ?, ";

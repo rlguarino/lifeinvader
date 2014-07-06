@@ -16,9 +16,9 @@ public class Wall {
 
 	// Table column names
 	public static String WALL = "wall"; // Table Name is Wall
-	public static Long WALLID = "wall_ID"; 
-	public static Long USERID = "user_ID";
-	public static Long GROUPID = "group_ID";
+	public static String WALLID = "wall_ID"; 
+	public static String USERID = "user_ID";
+	public static String GROUPID = "group_ID";
 	
 	/**
 	*
@@ -46,15 +46,16 @@ public class Wall {
 		Connection conn = null;
 		try {
 			conn = DB.getConnection();
-			String sql = "UPDATE " + Wall.Userd.dquote(Wall.WALL);
+			String sql = "UPDATE " + Userd.dquote(Wall.WALL);
 				sql += " set " + Wall.USERID + " = ?, ";
 				sql += Wall.GROUPID + " = ?, ";
 				sql += "where " + Wall.WALLID + " = ?";
 
 			Logger.debug("Generated update: [%s]", sql);
 			pstmt = conn.prepareStatement(sql);
-			pstmt.setString(1, this.user_ID);
-			pstmt.setString(2, this.group_ID);
+			pstmt.setLong(1, this.user_ID);
+			pstmt.setLong(2, this.group_ID);
+			pstmt.setLong(3, this.wall_ID);
 
 			pstmt.executeUpdate();
 

@@ -14,7 +14,7 @@ public class Video extends Media {
 
 	// Table column names
 	public static String VIDEO = "video"; // Table Name is Video
-	public static Long MEDIA_ID = "media_ID";
+	public static String MEDIA_ID = "media_ID";
 	public static String FILE_NAME = "file_name";
 	public static String FILE_LOCATION = "file_location";
 	public static String DISPLAY_NAME = "display_name";
@@ -51,7 +51,7 @@ public class Video extends Media {
 		Connection conn = null;
 		try {
 			conn = DB.getConnection();
-			String sql = "UPDATE " + Video.Userd.dquote(Video.VIDEO);
+			String sql = "UPDATE " + Userd.dquote(Video.VIDEO);
 				sql += " set " + Video.FILE_NAME + " = ?, ";
 				sql += Video.FILE_LOCATION + " = ?, ";
 				sql += Video.DISPLAY_NAME + " = ?, ";

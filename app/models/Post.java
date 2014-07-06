@@ -62,14 +62,14 @@ public class Post{
 				sql += Post.TYPE + " = ?, ";
 				sql += Post.TIMESTAMP + " = ?, ";
 				sql += Post.USER_ID + " = ?, ";
-				sql += "where " + Post.POSTID + " = ?";
+				sql += "where " + Post.POST_ID + " = ?";
 
 			Logger.debug("Generated update: [%s]", sql);
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setString(1, this.content);
 			pstmt.setString(2, this.type);
-			pstmt.setString(3, this.time_stamp);
-			pstmt.setString(4, this.user_ID);
+			pstmt.setTimestamp(3, this.time_stamp);
+			pstmt.setLong(4, this.user_ID);
 			pstmt.setLong(5, this.post_ID);
 
 			pstmt.executeUpdate();
