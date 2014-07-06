@@ -35,7 +35,7 @@ public class Song extends Media {
 	* @param duration 		The duration of the song
 	*
 	*/
-	public Song (Long media_ID, String file_name, String file_location, \
+	public Song (Long media_ID, String file_name, String file_location,
 		String display_name, String duration, String genre, String artist) {
 		this.media_ID = media_ID;
 		this.file_name = file_name;
@@ -58,12 +58,12 @@ public class Song extends Media {
 		try {
 			conn = DB.getConnection();
 			String sql = "UPDATE " + Song.Userd.dquote(Song.SONG);
-				sql += " set " + Song.FILE_NAME " = ?, ";
-				sql += Song.FILE_LOCATION " = ?, ";
-				sql += Song.DISPLAY_NAME " = ?, ";
-				sql += Song.DURATION " = ?, ";
-				sql += Song.GENRE " = ?, ";
-				sql += Song.ARTIST " = ?, ";
+				sql += " set " + Song.FILE_NAME + " = ?, ";
+				sql += Song.FILE_LOCATION + " = ?, ";
+				sql += Song.DISPLAY_NAME + " = ?, ";
+				sql += Song.DURATION + " = ?, ";
+				sql += Song.GENRE + " = ?, ";
+				sql += Song.ARTIST + " = ?, ";
 				sql += "where " + Song.MEDIA_ID + " = ?";
 
 			Logger.debug("Generated update: [%s]", sql);

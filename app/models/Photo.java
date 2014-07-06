@@ -15,7 +15,7 @@ public class Photo extends Media {
 
 	// Table column names
 	public static String PHOTO = "photo"; // Table Name is Photo
-	public static Long MEDIA_ID = "media_ID";
+	public static String MEDIA_ID = "media_ID";
 	public static String FILE_NAME = "file_name";
 	public static String FILE_LOCATION = "file_location";
 	public static String DISPLAY_NAME = "display_name";
@@ -32,7 +32,7 @@ public class Photo extends Media {
 	* @param comment 		The comment for the photo
 	*
 	*/
-	public Photo (Long media_ID, String file_name, String file_location, \
+	public Photo (Long media_ID, String file_name, String file_location,
 		String display_name, String comment) {
 		this.media_ID = media_ID;
 		this.file_name = file_name;
@@ -52,11 +52,11 @@ public class Photo extends Media {
 		Connection conn = null;
 		try {
 			conn = DB.getConnection();
-			String sql = "UPDATE " + Photo.Userd.dquote(Photo.PHOTO);
-				sql += " set " + Photo.FILE_NAME " = ?, ";
-				sql += Photo.FILE_LOCATION " = ?, ";
-				sql += Photo.DISPLAY_NAME " = ?, ";
-				sql += Photo.COMMENT " = ?, ";
+			String sql = "UPDATE " + Userd.dquote(Photo.PHOTO);
+				sql += " set " + Photo.FILE_NAME + " = ?, ";
+				sql += Photo.FILE_LOCATION + " = ?, ";
+				sql += Photo.DISPLAY_NAME + " = ?, ";
+				sql += Photo.COMMENT + " = ?, ";
 				sql += "where " + Photo.MEDIA_ID + " = ?";
 
 			Logger.debug("Generated update: [%s]", sql);
@@ -65,6 +65,7 @@ public class Photo extends Media {
 			pstmt.setString(2, this.file_location);
 			pstmt.setString(3, this.display_name);
 			pstmt.setString(4, this.comment);
+			pstmt.setLong(5, this.media_ID);
 
 			pstmt.executeUpdate();
 

@@ -15,7 +15,7 @@ public class Group {
 	public int groupsize;
 
 	public static String GROUP = "group"; // Table Name is Group
-	public static Long GROUPID = "group_id";
+	public static String GROUPID = "group_id";
 	public static String NAME = "name";
 	
 	/**
@@ -70,7 +70,7 @@ public class Group {
 			Logger.debug("Generated update: [%s]", sql);
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setString(1,this.name);
-			pstmt.setString(2,this.group_Id);
+			pstmt.setLong(2,this.group_Id);
 
 			pstmt.executeUpdate();
 

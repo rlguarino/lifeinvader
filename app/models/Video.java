@@ -31,7 +31,7 @@ public class Video extends Media {
 	* @param duration 		The duration of the video
 	*
 	*/
-	public Video (Long media_ID, String file_name, String file_location, \
+	public Video (Long media_ID, String file_name, String file_location,
 		String display_name, String duration, String genre, String artist) {
 		this.media_ID = media_ID;
 		this.file_name = file_name;
@@ -52,10 +52,10 @@ public class Video extends Media {
 		try {
 			conn = DB.getConnection();
 			String sql = "UPDATE " + Video.Userd.dquote(Video.VIDEO);
-				sql += " set " + Video.FILE_NAME " = ?, ";
-				sql += Video.FILE_LOCATION " = ?, ";
-				sql += Video.DISPLAY_NAME " = ?, ";
-				sql += Video.DURATION " = ?, ";
+				sql += " set " + Video.FILE_NAME + " = ?, ";
+				sql += Video.FILE_LOCATION + " = ?, ";
+				sql += Video.DISPLAY_NAME + " = ?, ";
+				sql += Video.DURATION + " = ?, ";
 				sql += "where " + Video.MEDIA_ID + " = ?";
 
 			Logger.debug("Generated update: [%s]", sql);

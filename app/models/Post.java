@@ -14,18 +14,18 @@ import java.util.Date;
 public class Post{
 
 	public String content;
-	public Type type;
+	public String type;
 	public Timestamp time_stamp;
 	public Long user_ID;
 	public Long post_ID;
 
 	// Table column names
-	public static String POST = "post"; // Table Name is Wall
+	public static String POST = "post"; // Table Name is post
 	public static String CONTENT = "Content"; 
-	public static Type TYPE = "type";
-	public static TimeStamp TIMESTAMP = "time_stamp";
-	public static Long USER_ID = "user_ID";
-	public static Long POST_ID = "post_ID";
+	public static String TYPE = "type";
+	public static String TIMESTAMP = "time_stamp";
+	public static String USER_ID = "user_ID";
+	public static String POST_ID = "post_ID";
 	
 	/**
 	*
@@ -38,7 +38,7 @@ public class Post{
 	* @param postID: 		The id of the post
 	*
 	*/
-	public Post (String content, Type type, Timestamp time_stamp, Long user_ID, Long post_ID) {
+	public Post (String content, String type, Timestamp time_stamp, Long user_ID, Long post_ID) {
 		this.content = content;
 		this.type = type;
 		this.time_stamp = time_stamp;
@@ -57,11 +57,11 @@ public class Post{
 		Connection conn = null;
 		try {
 			conn = DB.getConnection();
-			String sql = "UPDATE " + Post.Userd.dquote(Post.POST);
-				sql += " set " + Post.CONTENT " = ?, ";
-				sql += Post.TYPE " = ?, ";
-				sql += Post.TIMESTAMP " = ?, ";
-				sql += Post.USER_ID " = ?, ";
+			String sql = "UPDATE " + Userd.dquote(Post.POST);
+				sql += " set " + Post.CONTENT + " = ?, ";
+				sql += Post.TYPE + " = ?, ";
+				sql += Post.TIMESTAMP + " = ?, ";
+				sql += Post.USER_ID + " = ?, ";
 				sql += "where " + Post.POSTID + " = ?";
 
 			Logger.debug("Generated update: [%s]", sql);
@@ -70,6 +70,7 @@ public class Post{
 			pstmt.setString(2, this.type);
 			pstmt.setString(3, this.time_stamp);
 			pstmt.setString(4, this.user_ID);
+			pstmt.setLong(5, this.post_ID);
 
 			pstmt.executeUpdate();
 
