@@ -1,7 +1,7 @@
 
 
 Create Table "user" (
-user_ID int NOT NULL,
+user_ID SERIAL,
 name varchar(30) NOT NULL,
 dateOfBirth varchar(30),
 address varchar(40),
