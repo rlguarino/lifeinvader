@@ -1,0 +1,50 @@
+
+--Indexes
+
+-- get user names, id, date of birth
+Create Index getUserNames
+On "User" (user_ID, name, dateOfBirth);
+
+-- get group name and id
+Create Index getGroupNames
+On "Group" (group_ID,name);
+
+-- get wall groupids
+Create Index getGroupIDs
+On "Wall" (groupID);
+
+-- get all post content
+Create Index getPostContent
+On "Post" (content);
+
+
+
+--Triggers
+
+--Before inserting into user, check to make sure slot is null
+Create Trigger userAlert
+Before Insert On "User"
+For Each Row
+Execute Procedure insert_User();
+
+Create Function insert_User()
+Returns 'Trigger'
+As $User$
+Begin
+Insert into "User" (user_ID, name) Values(new.user_ID, null);
+Return new;
+End;
+
+--Before inserting into group, check to make sure slot is null
+Create Trigger groupAlert
+Before Insert On "Group"
+For Each Row
+Execute Procedure insert_Group();
+
+Create Function insert_Group()
+Returns 'Trigger'
+As $User$
+Begin
+Insert into "Group" (group_ID, name) Values(new.group_ID, null);
+Return new;
+End;
