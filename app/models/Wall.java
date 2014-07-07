@@ -120,7 +120,7 @@ public class Wall {
      	return wall;
      }
 
-     public void deleteWall(Long wall_ID) throws SQLException{
+     public static void deleteWall(Long wall_ID) throws SQLException{
         Connection conn = null;
         PreparedStatement deleteByID = null;
 

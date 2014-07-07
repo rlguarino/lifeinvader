@@ -172,7 +172,7 @@ public class Group {
      	return group;
     }
 
-    public void deleteGroup(Long group_ID) throws SQLException{
+    public static void deleteGroup(Long group_ID) throws SQLException{
         Connection conn = null;
         PreparedStatement deleteByID = null;
 
