@@ -81,7 +81,7 @@ public class Song extends Media {
 			conn.close();
         } catch(SQLException e){
             // Attempt to close the connection
-            Logger.debug("Error while persiting user");
+            Logger.debug("Error while persiting song");
             if (conn != null){
                 try{
                 conn.close();
