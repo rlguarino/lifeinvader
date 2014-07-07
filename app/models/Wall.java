@@ -17,8 +17,8 @@ public class Wall {
 	// Table column names
 	public static String WALL = "wall"; // Table Name is Wall
 	public static String WALLID = "wall_ID"; 
-	public static String USERID = "user_ID";
-	public static String GROUPID = "group_ID";
+	public static String USERID = "userID";
+	public static String GROUPID = "groupID";
 	
 	/**
 	*
@@ -35,6 +35,10 @@ public class Wall {
 		this.group_ID = group_ID;
 	} 
 
+	public static String dquote(String str){
+        return "\"" + str + "\"";
+    }
+
 	/**
 	* Persist
 	* Saves the wall to the database, this function will
@@ -46,7 +50,7 @@ public class Wall {
 		Connection conn = null;
 		try {
 			conn = DB.getConnection();
-			String sql = "UPDATE " + Userd.dquote(Wall.WALL);
+			String sql = "UPDATE " + Wall.dquote(Wall.WALL);
 				sql += " set " + Wall.USERID + " = ?, ";
 				sql += Wall.GROUPID + " = ?, ";
 				sql += "where " + Wall.WALLID + " = ?";
@@ -76,13 +80,66 @@ public class Wall {
 
 	 /**
      * FindById
-     * Searches the database for a Group object by the object id.
+     * Searches the database for a wall object by the object id.
      *
      * @param connection    The jdbc connection
      * @param id            The id to select by
      */
-     public static Group FindByID(){
-     	//TODO
-     	return null;
+     public static Wall FindByID(Long wall_ID){
+
+     	Wall wall = null;
+     	Connection conn = null;
+     	PreparedStatement findWall = null;
+
+     	if(wall_ID != null){
+     		try{
+     			conn = DB.getConnection();
+    			
+    			String findWallID = String.format("SELECT * from %s where wall_ID = ?", Wall.dquote(Wall.WALL));
+     			findWall = conn.prepareStatement(findWallID);
+     			findWall.setLong(1, wall_ID);
+
+     			ResultSet rs = findWall.executeQuery();
+     			if (rs.next()){
+     				wall = new Wall(	
+     				rs.getLong(Wall.USERID),
+     				rs.getLong(Wall.GROUPID),
+     				rs.getLong(Wall.WALLID));
+     			}
+
+     			findWall.close();
+     			conn.close();
+     			return wall;
+
+     		}catch(SQLException e){
+     			Logger.debug("Error retrieving wall.", e);
+     		}
+     	}else{
+     		Logger.debug("Wall id is null.");
+     	}
+     	return wall;
      }
+
+     public void deleteWall(Long wall_ID) throws SQLException{
+        Connection conn = null;
+        PreparedStatement deleteByID = null;
+
+        String deleteWallStr = String.format("DELETE from %s where wall_ID = ?",
+            Wall.dquote(WALL), wall_ID);
+
+        try {
+            conn = DB.getConnection();
+            deleteByID = conn.prepareStatement(deleteWallStr);
+            ResultSet rs = deleteByID.executeQuery();
+
+            if(rs.next()){
+                Logger.debug("Failed to delete Wall.");
+            }
+
+            deleteByID.close();
+            conn.close();
+        } catch(SQLException e){
+            Logger.debug("Failed while trying to delete wall.");
+        }
+    }
 }
