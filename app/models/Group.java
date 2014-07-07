@@ -185,7 +185,7 @@ public class Group {
             ResultSet rs = deleteByID.executeQuery();
 
             if(rs.next()){
-                Logger.debug("Failed to delete Group.")
+                Logger.debug("Failed to delete Group.");
             }
 
             deleteByID.close();
