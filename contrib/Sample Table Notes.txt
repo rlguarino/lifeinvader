@@ -1,0 +1,21 @@
+Sample Table Outline:
+
+All the data is randomized by using www.generatedata.com. 
+
+Every user is given an ID and is autoincremented by 1 as you add users.
+There are 100 different users. 
+
+There are 17 unique groups with using popular facebook groups, and 
+randomized group sizes from 5,000 - 1,000,000.
+
+There are 100 walls because there are a 100 users. Each wall references
+to a user and a group(from 1 - 17). 
+
+Every request has a user (sender) and a person that the user is trying
+to friend (receiver). User# 1, 89, 25, 54, 76 sent requests to 
+users from #1-100. 
+
+The friend table shows who is friends with who and which is the most
+populated table. 
+
+The member table shows which users are a member of the groups. 
