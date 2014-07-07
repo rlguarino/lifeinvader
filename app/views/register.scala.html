@@ -2,62 +2,51 @@
 
 @importhelper._
 
-<html>
-    <head>
-        <title>Lifeinvader</title>
-        <link rel="shortcut icon" type="image/png" href="@routes.Assets.at("images/favicon.png")">
-        <link rel="stylesheet" type="text/css" media="screen" href="@routes.Assets.at("stylesheets/login.css")">
-    </head>
-    <body>
-        <header>
-            <a href="@routes.Application.index" id="logo"><span>Life</span>invader</a>
-        </header>
-  
-@form(routes.Signup.register(), 'class -> "form") {
 
-    @if(registrationForm.hasGlobalErrors) {
-        <p class="error">
-            <span class="label label-danger">@registrationForm.globalError.message</span>
-        </p>
+@main("Register") {  
+    @form(routes.Signup.register(), 'class -> "form") {
+
+        @if(registrationForm.hasGlobalErrors) {
+            <p class="error">
+                <span class="label label-danger">@registrationForm.globalError.message</span>
+            </p>
+        }
+
+        <fieldset>
+            @inputText(
+                registrationForm("email"),
+                'class -> "form-control",
+                '_label -> "Email"
+            )
+            @inputText(
+                registrationForm("fullname"),
+                'class -> "form-control",
+                '_label -> "Full Name"
+            )
+            @inputText(
+                registrationForm("address"),
+                'class -> "form-control",
+                '_label -> "Address"
+            )
+            @inputPassword(
+                registrationForm("inputPassword"),
+                'class -> "form-control",
+                '_label -> "Password"
+            )
+            @inputPassword(
+                registrationForm("confirmPasswd"),
+                'class -> "form-control",
+                '_lable -> "Confirm Password"
+            )
+            @inputDate(
+                registrationForm("dateOfBirth"),
+                'class -> "form-control",
+                '_label -> "Birthdate"
+            )
+        </fieldset>
+
+        <div class="form-actions">
+            <input type="submit" class="btn btn-primary" value="@Messages("Register")">
+        </div>
     }
-
-    <fieldset>
-        @inputText(
-            registrationForm("email"),
-            'class -> "form-control",
-            '_label -> "Email"
-        )
-        @inputText(
-            registrationForm("fullname"),
-            'class -> "form-control",
-            '_label -> "Full Name"
-        )
-        @inputText(
-            registrationForm("address"),
-            'class -> "form-control",
-            '_label -> "Address"
-        )
-        @inputPassword(
-            registrationForm("inputPassword"),
-            'class -> "form-control",
-            '_label -> "Password"
-        )
-        @inputPassword(
-            registrationForm("confirmPasswd"),
-            'class -> "form-control",
-            '_lable -> "Confirm Password"
-        )
-        @inputDate(
-            registrationForm("dateOfBirth"),
-            'class -> "form-control",
-            '_label -> "Birthdate"
-        )
-    </fieldset>
-
-    <div class="form-actions">
-        <input type="submit" class="btn btn-primary" value="@Messages("Register")">
-    </div>
 }
-
-    </body>
-</html>
