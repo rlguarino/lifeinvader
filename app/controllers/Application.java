@@ -80,7 +80,8 @@ public class Application extends Controller {
         } else {
             session().clear();
             session("id", loginForm.get().email);
-            return redirect(routes.Application.index());
+            return redirect(routes.UserController.getProfile(loginForm.get().email));
+            //return redirect(routes.Application.index());
         }
     }
 

@@ -2,8 +2,6 @@ package controllers;
 
 import play.*;
 import play.mvc.*;
-import play.db.jpa.JPA;
-import play.db.jpa.Transactional;
 import play.data.*;
 import play.data.Form;
 import play.data.validation.Constraints;
@@ -16,10 +14,14 @@ import models.User;
 
 public class UserController extends Controller {
 
-	public static void setSetting(User user){
+	public static Result getProfile(String email){
 
-		if(user == null){
-			return;
+		if(email != null){
+			User dbUser = User.findByEmail(email);
+			return ok(index.render("This Usercontroller is working...."));
+		}else{
+			Logger.debug("Email is missing.");
+			return badRequest();
 		}
 	}
 }
