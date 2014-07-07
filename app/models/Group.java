@@ -170,5 +170,28 @@ public class Group {
      		}
      	}
      	return group;
-     }
+    }
+
+    public void deleteGroup(Long group_ID) throws SQLException{
+        Connection conn = null;
+        PreparedStatement deleteByID = null;
+
+        String deleteGroupStr = String.format("DELETE from %s where group_id = ?",
+            Group.dquote(GROUP), group_ID);
+
+        try {
+            conn = DB.getConnection();
+            deleteByID = conn.prepareStatement(deleteGroupStr);
+            ResultSet rs = deleteByID.executeQuery();
+
+            if(rs.next()){
+                Logger.debug("Failed to delete Group.")
+            }
+
+            deleteByID.close();
+            conn.close();
+        } catch(SQLException e){
+            Logger.debug("Failed while trying to delete group.");
+        }
+    }
 }
