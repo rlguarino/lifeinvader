@@ -21,7 +21,7 @@ public class Application extends Controller {
 	 * User must be authenticated to view login page.
 	 * 
 	 */
-    @Security.Authenticated(Secured.class)
+    //@Security.Authenticated(Secured.class)
     public static Result index() {
         return ok(index.render("Your new application is ready."));
     }

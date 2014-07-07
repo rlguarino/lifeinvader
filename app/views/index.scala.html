@@ -1,6 +1,38 @@
 @(message: String)
 
-@main("Welcome to Play") {
-	
-	@Html("Hello World!")
+@umain("Welcome to Play") {
+	<div >
+		<h1>Welcome to LiveInvader</h1>
+		<div class="well"> Looks like you are not logged in. <a href="@routes.Application.login">Login</a> or <a href="@routes.Signup.registration">Register</a> to user Lifeinvader. </div>
+		<p>
+			LifeInvader is a revolutionary new Social Media application that lets you connect with your friends and never lets you disconnect. Even if you get in a fight, your friends will always be able to keep tabs on you.
+		</p>
+		<h2> Features: </h2>
+		<div class="panel panel-default">
+			<div class="panel-heading"><h3 class="panel-title">Create an Account!</h3></div>
+			<div class="panel-body">
+				Register and login to your brand new LifeInvader account!
+			</div>
+		</div>
+		<h2> In the Works. </h2>
+		<div class="panel panel-warning">
+			<div class="panel-heading"><h3 class="panel-title">Have Friends </h3></div>
+			<div class="panel-body">
+				Since you don't have friends in real life have friends here in LifeInvader. Cultivate your virtual friends list.
+			</div>
+		</div>
+		<h2>In the RoadMap </h2>
+		<div class="panel panel-danger">
+			<div class="panel-heading"><h3 class="panel-title">GPS Tracking</h3></div>
+			<div class="panel-body">
+				Enabled by default Always On GPS Tracking allows your friends and family to constantly keep tabs of your where-abouts at any time, in any time zone.
+			</div>
+		</div>
+		<div class="panel panel-danger">
+			<div class="panel-heading"><h3 class="panel-title">Find your Friends</h3></div>
+			<div class="panel-body">
+				Search through the vast ammount of people on LifeInvader to find your <del>potential victims</del> friends.
+			</div>
+		</div>
+	<div>
 }
