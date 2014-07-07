@@ -17,10 +17,11 @@ public class Group {
 	public static String GROUP = "group"; // Table Name is Group
 	public static String GROUPID = "group_id";
 	public static String NAME = "name";
+	public static String GROUPSIZE = "groupSize";
 	
 	/**
      * dquote
-     * double quotes the given string in \", for use in sql querries.
+     * double quotes the given string in \", for use in sql queries.
      * @param str the string to quote
      * @return the quoted string
      */
@@ -30,7 +31,7 @@ public class Group {
 
     /**
      * quote
-     * single quotes the given string in \", for use in sql querries.
+     * single quotes the given string in \", for use in sql queries.
      * @param str the string to quote
      * @return the quoted string
      */
@@ -88,7 +89,48 @@ public class Group {
             }
         }
     }
-	
+
+    public static Group createGroup(Long group_Id, String name, int groupsize) throws SQLException{
+    	Group group = null;
+    	PreparedStatement insertGroup = null;
+    	PreparedStatement checkGroup = null;
+    	Connection conn = null;
+
+    	try{
+    		conn = DB.getConnection();
+
+    		String existingGroup = String.format("SELECT * from %s where group_id = ?", Group.dquote(Group.GROUP));
+    		String insertGroupStr = String.format("INSERT into %s (%s, %s, %s) VALUES ( ?, ?, ?, ?)",
+                Group.dquote(Group.GROUP),
+                Group.GROUPID,
+                Group.NAME,
+                Group.GROUPSIZE);
+            insertGroup = conn.prepareStatement(insertGroupStr);
+            checkGroup = conn.prepareStatement(existingGroup);
+
+            insertGroup.setLong(1, group_Id);
+            insertGroup.setString(2, name);
+            insertGroup.setInt(3, groupsize);
+
+            checkGroup.setLong(1, group_Id);
+            ResultSet rs = checkGroup.executeQuery();
+            if(rs.next()){
+            	Logger.debug("Already a group with this ID");
+            }
+
+            Boolean results = insertGroup.execute();
+            if(!results){
+            	Logger.debug("Failed to execute create group.");
+            }
+    	}catch (SQLException e){
+    		Logger.debug("Error creating group", e);
+    	}
+
+    	checkGroup.close();
+    	insertGroup.close();
+    	conn.close();
+    	return group;
+    }
 
 	 /**
      * FindById
@@ -97,8 +139,36 @@ public class Group {
      * @param connection    The jdbc connection
      * @param id            The id to select by
      */
-     public static Group FindByID(){
+     public static Group FindByID(Long group_Id) throws SQLException{
      	//TODO
-     	return null;
+     	Group group = null;
+     	Connection conn = null;
+     	PreparedStatement findGroup = null;
+
+     	if(group_Id != null){
+     		try{
+     			conn = DB.getConnection();
+    			
+    			String findGroupID = String.format("SELECT * from %s where group_id = ?", Group.dquote(Group.GROUP));
+     			findGroup = conn.prepareStatement(findGroupID);
+     			findGroup.setLong(1, group_Id);
+
+     			ResultSet rs = findGroup.executeQuery();
+     			if (rs.next()){
+     				group = new Group(
+     				rs.getLong(Group.GROUPID),
+     				rs.getString(Group.NAME),
+     				rs.getInt(Group.GROUPSIZE));
+     			}
+
+     			findGroup.close();
+     			conn.close();
+     			return group;
+
+     		}catch(SQLException e){
+     			Logger.debug("Error retrieving group.", e);
+     		}
+     	}
+     	return group;
      }
 }
