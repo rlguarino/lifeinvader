@@ -1,13 +1,13 @@
 
 
 Create Table "user" (
-user_ID SERIAL NOT NULL,
+user_ID SERIAL,
 name varchar(30) NOT NULL,
 dateOfBirth bigint,
 address varchar(40),
 email varchar(40),
 passwordHash varchar(100),
-isVisible boolean NOT NULL DEFAULT true,
+isVisible boolean NOT NULL,
 Primary Key (user_ID)
 );
 
@@ -37,8 +37,8 @@ Create Table "post" (
 postID int NOT NULL,
 userID int NOT NULL,
 wallID int NOT NULL,
-content varchar(5000),
-timestamp varchar(20) NOT NULL,
+content varchar(5000) NOT NULL,
+time_Stamp timestamp NOT NULL,
 type varchar(20) NOT NULL,
 Primary Key (postID),
 Foreign Key (userID) REFERENCES "user"(user_ID),
@@ -48,8 +48,10 @@ Foreign Key (wallID) REFERENCES "wall"(wall_ID)
 
 
 Create Table "request" (
+requestID int NOT NULL,
 senderID int NOT NULL,
 receiverID int NOT NULL,
+Primary Key (requestID),
 Foreign Key (senderID) REFERENCES "user"(user_ID),
 Foreign Key (receiverID) REFERENCES "user"(user_ID)
 );
