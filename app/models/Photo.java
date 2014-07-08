@@ -52,7 +52,7 @@ public class Photo extends Media {
 		Connection conn = null;
 		try {
 			conn = DB.getConnection();
-			String sql = "UPDATE " + Userd.dquote(Photo.PHOTO);
+			String sql = "UPDATE " + User.dquote(Photo.PHOTO);
 				sql += " set " + Photo.FILE_NAME + " = ?, ";
 				sql += Photo.FILE_LOCATION + " = ?, ";
 				sql += Photo.DISPLAY_NAME + " = ?, ";

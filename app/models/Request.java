@@ -52,7 +52,7 @@ public class Request {
 		Connection conn = null;
 		try {
 			conn = DB.getConnection();
-			String sql = "UPDATE " + Userd.dquote(Request.REQUEST);
+			String sql = "UPDATE " + User.dquote(Request.REQUEST);
 				sql += " set " + Request.SENDER_ID + " = ?, ";
 				sql += Request.RECEIVER_ID + " = ?, ";
 				sql += "where " + Request.REQUEST_ID + " = ?";

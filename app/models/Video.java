@@ -51,7 +51,7 @@ public class Video extends Media {
 		Connection conn = null;
 		try {
 			conn = DB.getConnection();
-			String sql = "UPDATE " + Userd.dquote(Video.VIDEO);
+			String sql = "UPDATE " + User.dquote(Video.VIDEO);
 				sql += " set " + Video.FILE_NAME + " = ?, ";
 				sql += Video.FILE_LOCATION + " = ?, ";
 				sql += Video.DISPLAY_NAME + " = ?, ";

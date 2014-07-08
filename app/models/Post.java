@@ -64,7 +64,7 @@ public class Post{
 		Connection conn = null;
 		try {
 			conn = DB.getConnection();
-			String sql = "UPDATE " + Userd.dquote(Post.POST);
+			String sql = "UPDATE " + User.dquote(Post.POST);
 				sql += " set " + Post.CONTENT + " = ?, ";
 				sql += Post.TYPE + " = ?, ";
 				sql += Post.TIMESTAMP + " = ?, ";

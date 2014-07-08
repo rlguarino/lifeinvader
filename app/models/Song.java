@@ -57,7 +57,7 @@ public class Song extends Media {
 		Connection conn = null;
 		try {
 			conn = DB.getConnection();
-			String sql = "UPDATE " + Userd.dquote(Song.SONG);
+			String sql = "UPDATE " + User.dquote(Song.SONG);
 				sql += " set " + Song.FILE_NAME + " = ?, ";
 				sql += Song.FILE_LOCATION + " = ?, ";
 				sql += Song.DISPLAY_NAME + " = ?, ";
