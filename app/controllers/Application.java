@@ -28,7 +28,7 @@ public class Application extends Controller {
 
     @Security.Authenticated(Secured.class)
     public static Result home() {
-        return new Todo();
+        return ok(home.render());
     }
     
     /**
@@ -94,7 +94,7 @@ public class Application extends Controller {
                 Logger.debug("Error while getting user for authentication", e);
             }
             
-            return redirect(routes.Application.index());
+            return redirect(routes.Application.home());
         }
     }
 
