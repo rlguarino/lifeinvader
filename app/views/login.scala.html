@@ -2,41 +2,31 @@
 
 @importhelper._
 
-<html>
-    <head>
-        <title>Lifeinvader</title>
-        <link rel="shortcut icon" type="image/png" href="@routes.Assets.at("images/favicon.png")">
-        <link rel="stylesheet" type="text/css" media="screen" href="@routes.Assets.at("stylesheets/login.css")">
-    </head>
-    <body>
-        <header>
-            <a href="@routes.Application.index" id="logo"><span>Life</span>invader</a>
-        </header>
-  
-@form(routes.Application.authenticate(), 'class -> "form") {
+@umain("Login"){
+    
+    @form(routes.Application.authenticate(), 'class -> "form") {
 
-    @if(loginForm.hasGlobalErrors) {
-        <p class="error">
-            <span class="label label-danger">@loginForm.globalError.message</span>
-        </p>
+        @if(loginForm.hasGlobalErrors) {
+            <p class="error">
+                <span class="label label-danger">@loginForm.globalError.message</span>
+            </p>
+        }
+
+        <fieldset>
+            @inputText(
+                loginForm("email"),
+                'class -> "form-control"
+            )
+            @inputPassword(
+                loginForm("password"),
+                'class -> "form-control"
+            )
+        </fieldset>
+
+        <div class="form-actions">
+            <input type="submit" class="btn btn-primary" value="@Messages("Authenticate")">
+            <a href="@routes.Signup.registration" ><span> Register</span></a>
+        </div>
     }
 
-    <fieldset>
-        @inputText(
-            loginForm("email"),
-            'class -> "form-control"
-        )
-        @inputPassword(
-            loginForm("password"),
-            'class -> "form-control"
-        )
-    </fieldset>
-
-    <div class="form-actions">
-        <input type="submit" class="btn btn-primary" value="@Messages("Authenticate")">
-        <a href="@routes.Signup.registration" ><span> Register</span></a>
-    </div>
 }
-
-    </body>
-</html>
