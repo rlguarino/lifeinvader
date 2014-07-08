@@ -21,11 +21,15 @@ public class Application extends Controller {
 	 * User must be authenticated to view login page.
 	 * 
 	 */
-    //@Security.Authenticated(Secured.class)
     public static Result index() {
-        return ok(index.render("Your new application is ready."));
+        //Check for a authenticated user, redirect to home if there is one.
+        return ok(index.render());
     }
 
+    @Security.Authenticated(Secured.class)
+    public static Result home() {
+        return new Todo();
+    }
     
     /**
      * Login form class
